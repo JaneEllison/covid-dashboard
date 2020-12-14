@@ -14,7 +14,7 @@ module.exports = {
   "ignorePatterns": ["webpack.config.js", ".eslintrc.js", "babel.config.js"],
   rules: {
     "indent": [
-      "error", 4
+      "error", 2
     ],
     "linebreak-style": [
         "error",
