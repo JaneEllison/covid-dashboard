@@ -12,6 +12,7 @@ const covidData = async () => {
   const covidApiData = await response.json();
 
   const geoFeature = geoCovidMarker(covidApiData);
+  createPopupCovid(geoFeature);
 };
 
 const geoCovidMarker = (covidApiData) => {
@@ -53,6 +54,51 @@ const geoCovidMarker = (covidApiData) => {
   };
 
   return geoFormat;
+};
+
+const createMarkerUi = (width, height) => {
+  const covidMarker = leaflet.icon({
+    iconUrl: '../assets/images/covid-marker.png',
+    iconSize: [width, height],
+    iconAnchor: [25, 16],
+  });
+
+  return covidMarker;
+};
+
+const createPopupCovid = (geoFeature) => {
+  const geoJsonPoint = new leaflet.GeoJSON(geoFeature, {
+    pointToLayer: (covidGeoInf, coordinates) => {
+      const { properties } = covidGeoInf;
+
+      const {
+        country, cases, deaths, recovered,
+      } = properties;
+
+      const marker = leaflet.marker(coordinates, {
+        icon: leaflet.divIcon({
+          className: 'icon',
+          html: `
+            <div class="covid__container">
+              <div class="covid__content">
+                <h2 class="covid__country">${country}:</h2>
+                <div>
+                  <span><h3 class="covid__info">TotalConfirmed: ${cases}</h3></span>
+                  <span><h3 class="covid__info">TotalDeaths: ${deaths}</h3></span>
+                  <span><h3 class="covid__info">TotalRecovered: ${recovered}</h3></span>
+                </div>
+              </div>
+            </div>
+          `,
+        }),
+        riseOnHover: true,
+      });
+
+      return marker;
+    },
+  });
+
+  geoJsonPoint.addTo(covidMap);
 };
 
 covidData();
