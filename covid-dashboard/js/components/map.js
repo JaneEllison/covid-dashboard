@@ -10,6 +10,49 @@ tiles.addTo(covidMap);
 const covidData = async () => {
   const response = await fetch('https://corona.lmao.ninja/v2/countries');
   const covidApiData = await response.json();
+
+  const geoFeature = geoCovidMarker(covidApiData);
+};
+
+const geoCovidMarker = (covidApiData) => {
+  const geoFormat = {
+    type: 'FeatureCollection',
+    features: covidApiData.map((element) => {
+      const { countryInfo } = element;
+      const { lat, long } = countryInfo;
+
+      if (element.cases > 400000 && element.cases < 700000) {
+        const covidIcon = createMarkerUi(50, 30);
+
+        leaflet.marker([lat, long], { icon: covidIcon }).addTo(covidMap);
+      }
+      if (element.cases < 400000) {
+        const covidIcon = createMarkerUi(20, 15);
+
+        leaflet.marker([lat, long], { icon: covidIcon }).addTo(covidMap);
+      }
+      if (element.cases > 700000) {
+        const covidIcon = createMarkerUi(70, 60);
+
+        leaflet.marker([lat, long], { icon: covidIcon }).addTo(covidMap);
+      }
+
+      const covidGeoInf = {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [long, lat],
+        },
+        properties: {
+          ...element,
+        },
+      };
+
+      return covidGeoInf;
+    }),
+  };
+
+  return geoFormat;
 };
 
 covidData();
