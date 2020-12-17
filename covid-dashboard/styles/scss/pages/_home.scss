@@ -138,3 +138,43 @@ body {
     height: 5rem;
   }
 }
+
+#mapid {
+  height: 100%;
+}
+
+.covid__container {
+  display: flex;
+  position: relative;
+  width: 3rem;
+  height: 2.5rem;
+
+  &:hover {
+    .covid__content {
+      display: block;
+      box-shadow: 0 2px 6px rgba($base-color, .5);
+    }
+  }
+}
+
+.covid__content {
+  display: none;
+  position: absolute;
+  padding: 0.3rem;
+  width: 18rem;
+  background-color: cornflowerblue;
+  border-radius: 0.5rem;
+}
+
+.covid__country {
+  font-size: 2rem;
+  font-weight: bold;
+  font-style: normal;
+  color: snow;
+}
+
+.covid__info {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: mediumblue;
+}
