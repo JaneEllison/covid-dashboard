@@ -18,7 +18,43 @@
     <main class="main">
       <div class="main__container">
         <div class="left__part">
-          <div class="list"> </div>
+          <div class="list">
+            <div class="top__part">
+              <div class="swithers">
+                <div class="indicators__mode">
+                  <div class="arrow__left unactive"></div>
+                  <div class="indicator__name confirmed">Total confirmed</div>
+                  <div class="indicator__name deaths hide">Total deaths</div>
+                  <div class="indicator__name recovered hide">Total recovered</div>
+                  <div class="arrow__right"></div>
+                </div>
+                <div class="switch__container">
+                  <label class="switch">
+                    <input type="checkbox" class="switch__input days__mode">
+                    <div class="switch__label" data-on="Global" data-off="Daily">
+                      <div class="switch__handle"></div>
+                      <div class="view__mode global__cases">Global cases</div>
+                      <div class="view__mode hide daily__cases">Daily cases</div>
+                    </div>
+                  </label>
+                </div>
+                <div class="switch__container">
+                  <label class="switch">
+                    <input type="checkbox" class="switch__input counts__mode">
+                    <div class="switch__label" data-on="Global" data-off="Daily">
+                      <div class="switch__handle"></div>
+                      <div class="view__mode all__cases">All cases</div>
+                      <div class="view__mode hide thousands__cases">Per 100 000</div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <div class="countries">  </div>
+            </div>
+            <div class="search">
+              <input type="text" id="search" class="keyboardInput" placeholder="Search for a Country">
+            </div>
+          </div>
           <div class="map"> </div>
         </div>
         <div class="right__part">
