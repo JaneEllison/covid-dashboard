@@ -58,7 +58,41 @@
           <div class="map"> </div>
         </div>
         <div class="right__part">
-          <div class="table"></div>
+          <div class="table">
+            <div class="table__header">
+              <div class="country__flag"></div>
+              <h2 class="country__name">World</h2>
+            </div>
+            <div class="table__info ">
+              <div class="country__rates">
+                <span>Confirmed</span>
+                <span class="country__numbers table__confirmed"></span>
+              </div>
+              <div class="country__rates">
+                <span>Death</span>
+                <span class="country__numbers table__death"></span>
+              </div>
+              <div class="country__rates">
+                <span>Recovered</span>
+                <span class="country__numbers table__recovered"></span>
+              </div>  
+            </div>
+
+            <div class="swithers">
+              <div class="indicators__mode table__swither_days">
+                <div class="arrow__left arrow__left_days unactive"></div>
+                <div class="indicator__name table__global">Global cases</div>
+                <div class="indicator__name table__daily hide">Daily cases</div>
+                <div class="arrow__right arrow__right_days"></div>
+              </div>
+              <div class="indicators__mode table__swither_count">
+                <div class="arrow__left arrow__left_count unactive"></div>
+                <div class="indicator__name table__all">All cases</div>
+                <div class="indicator__name table__per100 hide">Per 100 000</div>
+                <div class="arrow__right arrow__right_count"></div>
+              </div>
+            </div>
+          </div>
           <div class="chart"></div>
         </div>
       </div>
