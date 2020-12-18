@@ -1,6 +1,9 @@
 const leaflet = window.L;
 const covidMap = leaflet.map('mapid').setView([0, 0], 2);
 
+let isCovidInfo = true;
+const covidControl = document.querySelector('.map__control');
+
 const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 const tileLayerUrl = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png';
@@ -61,6 +64,7 @@ const createMarkerUi = (width, height) => {
     iconUrl: '../assets/images/covid-marker.png',
     iconSize: [width, height],
     iconAnchor: [25, 16],
+    className: 'marker_img',
   });
 
   return covidMarker;
@@ -72,24 +76,33 @@ const createPopupCovid = (geoFeature) => {
       const { properties } = covidGeoInf;
 
       const {
-        country, cases, deaths, recovered,
+        country, cases, deaths, recovered, todayCases, todayDeaths, todayRecovered,
       } = properties;
 
       const marker = leaflet.marker(coordinates, {
         icon: leaflet.divIcon({
-          className: 'icon',
-          html: `
-            <div class="covid__container">
+          className: 'markerPopup',
+          html: `${isCovidInfo
+            ? `<div class="covid__container">
               <div class="covid__content">
                 <h2 class="covid__country">${country}:</h2>
                 <div>
-                  <span><h3 class="covid__info">TotalConfirmed: ${cases}</h3></span>
+                  <span><h3 class="covid__info">TotalConfirmed: ${cases} </h3></span>
                   <span><h3 class="covid__info">TotalDeaths: ${deaths}</h3></span>
                   <span><h3 class="covid__info">TotalRecovered: ${recovered}</h3></span>
                 </div>
               </div>
-            </div>
-          `,
+            </div>`
+            : `<div class="covid__container">
+              <div class="covid__content">
+                <h2 class="covid__country">${country}:</h2>
+                <div>
+                  <span><h3 class="covid__info">TodayConfirmed: ${todayCases} </h3></span>
+                  <span><h3 class="covid__info">TodayDeaths: ${todayDeaths} </h3></span>
+                  <span><h3 class="covid__info">TodayRecovered: ${todayRecovered} </h3></span>
+                </div>
+              </div>
+            </div>`}`,
         }),
         riseOnHover: true,
       });
@@ -100,5 +113,29 @@ const createPopupCovid = (geoFeature) => {
 
   geoJsonPoint.addTo(covidMap);
 };
+
+const covidControlAction = (event) => {
+  const markerPopup = document.querySelectorAll('.markerPopup');
+  const markerImg = document.querySelectorAll('.marker_img');
+
+  markerImg.forEach((el) => {
+    el.remove();
+  });
+  markerPopup.forEach((el) => {
+    el.remove();
+  });
+
+  if (event.target.getAttribute('class').slice(-5) === 'total') {
+    isCovidInfo = true;
+    covidData();
+  }
+
+  if (event.target.getAttribute('class').slice(-5) === 'today') {
+    isCovidInfo = false;
+    covidData();
+  }
+};
+
+covidControl.addEventListener('click', (event) => covidControlAction(event));
 
 covidData();
