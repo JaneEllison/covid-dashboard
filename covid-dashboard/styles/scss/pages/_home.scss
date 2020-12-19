@@ -90,7 +90,7 @@ body {
     height: 55vh;
   }
   .table{
-    height: 50%;
+    height: 40%;
     margin-bottom: 1rem;
     background-color:$components-color;
     @media only screen and (max-width: 768px){
@@ -98,7 +98,7 @@ body {
     }
   }
   .chart{
-    height: 50%;
+    height: 60%;
     background-color:$components-color;
     @media only screen and (max-width: 768px){
       height: 50%;

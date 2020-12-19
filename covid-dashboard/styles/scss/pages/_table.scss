@@ -8,23 +8,29 @@
     display: flex;
     align-items: center;
   }
+  &__info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .country__name {
   margin: 0;
-  font-size: 2rem;
+  margin-left: 0.6rem;
+  font-size: 2.5rem;
   color:#f3f3f3;
 }
 
-.table__info {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+.flag__img {
+  width: 3rem;
+  height: 1.5rem;
 }
 
 .country__rates {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 0.5rem;
   font-size: 1.5rem;
   color: #fff;
 }

@@ -14,6 +14,7 @@ const confirmed = document.querySelector ('.confirmed');
 const deaths = document.querySelector ('.deaths');
 const recovered = document.querySelector ('.recovered');
 
+let responce;
 let isGlobalCasesMode = true;
 let isAllCasesMode = true;
 let countClickArrow = 0;
@@ -21,9 +22,6 @@ let isConfirmedMode = true;
 let isDeathCasesMode = false;
 let isRecoveredMode = false;
 let searchTerm = '';
-
-let responce;
-
 
 const fetchData = async () => {
   responce = await fetch('https://corona.lmao.ninja/v2/countries').then(res => res.json());                 
@@ -183,7 +181,6 @@ countsMode.addEventListener('click', () => {
   getInfo();
 });
 
-
 //change indicators
 arrowRight.addEventListener('click', () => {
   if(countClickArrow === 0) {
@@ -238,9 +235,9 @@ arrowLeft.addEventListener('click', () => {
   countries.innerHTML = '';
   getInfo();
 })
- 
-input.addEventListener('input', (e) => {
-  searchTerm = e.target.value;
+
+input.addEventListener('input', (event) => {
+  searchTerm = event.target.value;
 
   countries.innerHTML = '';
 
@@ -249,4 +246,4 @@ input.addEventListener('input', (e) => {
 
 document.addEventListener ('DOMContentLoaded', () => {
   getInfo();
-})
+});

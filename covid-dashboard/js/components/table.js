@@ -1,3 +1,5 @@
+const countries = document.querySelector('.countries');
+
 const countryFlag = document.querySelector('.country__flag');
 const countryName = document.querySelector('.country__name');
 
@@ -21,6 +23,9 @@ let responce;
 let responceAll;
 let isGlobalCasesMode = true;
 let isAllCasesMode = true;
+let currentCountry;
+let isCountryMode;
+const worldPopulationPer100 = 78270;
 
 const fetchData = async () => {
   responce = await fetch('https://corona.lmao.ninja/v2/countries').then(res => res.json());
@@ -31,10 +36,11 @@ const getInfoTable = async () => {
 
   await fetchData();
 
+  if(isCountryMode) return;
+
   let confirmed;
   let death;
   let recovered;
-  const worldPopulationPer100 = 78270;
 
   if (isGlobalCasesMode && isAllCasesMode) {
     confirmed = responceAll.Global.TotalConfirmed;
@@ -60,14 +66,51 @@ const getInfoTable = async () => {
     recovered = Math.round(responceAll.Global.NewRecovered / worldPopulationPer100);
   }
 
-  createCountryTable(confirmed, death, recovered);
+  createCountryTable('World', 'assets/images/world-icon.png', confirmed, death, recovered);
 };
 
-const createCountryTable = (confirmed, death, recovered) => {
+const getCountryInfo = async () => {
+  await fetchData();
 
-  console.log (responceAll.Global);
-  // countryFlag.innerHTML = `<img src="${}" class="flag__img">`;
-  // countryName.innerText = TotalConfirmed;
+  if(!isCountryMode) return;
+
+  let newCountry = responce.find(country => currentCountry === country.country);
+
+  let confirmed;
+  let death;
+  let recovered;
+
+  if (isGlobalCasesMode && isAllCasesMode) {
+    confirmed = newCountry.cases;
+    death = newCountry.deaths;
+    recovered = newCountry.recovered;
+  }
+
+  else if (!isGlobalCasesMode && isAllCasesMode) {
+    confirmed = newCountry.todayCases;
+    death = newCountry.todayDeaths;
+    recovered = newCountry.todayRecovered;
+  }
+
+  else if (isGlobalCasesMode && !isAllCasesMode) {
+    confirmed = Math.round(newCountry.casesPerOneMillion / 10);
+    death = Math.round(newCountry.deathsPerOneMillion / 10);
+    recovered = Math.round(newCountry.recoveredPerOneMillion / 10);
+  }
+
+  else if (!isGlobalCasesMode && !isAllCasesMode) {
+    confirmed = Math.round(newCountry.todayCases / newCountry.population * 100000);
+    death = Math.round(newCountry.todayDeaths / newCountry.population * 100000);
+    recovered = Math.round(newCountry.todayRecovered / newCountry.population * 100000);
+  }
+
+  createCountryTable(newCountry.country, newCountry.countryInfo.flag, confirmed, death, recovered);
+
+}
+
+const createCountryTable = (country, flag, confirmed, death, recovered) => {
+  countryFlag.innerHTML = `<img src="${flag}" class="flag__img">`;
+  countryName.innerText = country;
 
   tableConfirmed.innerText = confirmed;
   tableDeath.innerText = death;
@@ -97,8 +140,6 @@ const changeTableCount = () => {
   arrowRightCount.classList.toggle('unactive');
 };
 
-
-
 //days swither right
 arrowRightDays.addEventListener('click', () => {
   
@@ -109,6 +150,7 @@ arrowRightDays.addEventListener('click', () => {
 
   cleanTable();
   getInfoTable();
+  getCountryInfo();
 });
 
 //days swither left
@@ -121,6 +163,7 @@ arrowLeftDays.addEventListener('click', () => {
 
   cleanTable();
   getInfoTable();
+  getCountryInfo();
 });
 
 //count swither right
@@ -133,6 +176,7 @@ arrowRightCount.addEventListener('click', () => {
 
   cleanTable();
   getInfoTable();
+  getCountryInfo();
 });
 
 //count swither left
@@ -145,7 +189,17 @@ arrowLeftCount.addEventListener('click', () => {
 
   cleanTable();
   getInfoTable();
+  getCountryInfo();
 });
+
+countries.addEventListener ('click', (event) => {
+  cleanTable();
+  let target = event.target;
+  if (target.className != 'country__name') return;
+  currentCountry = target.innerText;
+  isCountryMode = true;
+  getCountryInfo();
+})
 
 document.addEventListener ('DOMContentLoaded', () => {
   getInfoTable();
