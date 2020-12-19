@@ -147,6 +147,8 @@ const covidControlAction = (event) => {
   }
 };
 
+covidMap.addControl(new leaflet.Control.Fullscreen());
+
 covidData();
 
 covidControl.addEventListener('click', (event) => covidControlAction(event));
