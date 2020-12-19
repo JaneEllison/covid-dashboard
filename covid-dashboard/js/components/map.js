@@ -126,6 +126,7 @@ const createPopupCovid = (geoFeature) => {
 };
 
 const covidControlAction = (event) => {
+  if (event.target.getAttribute('class').slice(-7) === 'control') return;
   const markerPopup = document.querySelectorAll('.markerPopup');
   const markerImg = document.querySelectorAll('.marker_img');
 
