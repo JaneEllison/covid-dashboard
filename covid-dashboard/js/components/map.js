@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 const leaflet = window.L;
 const covidMap = leaflet.map('mapid').setView([0, 0], 2);
 
@@ -25,8 +26,8 @@ const geoCovidMarker = (covidApiData) => {
       const { countryInfo } = element;
       const { lat, long } = countryInfo;
 
-      if (element.cases > 400000 && element.cases < 700000) {
-        const covidIcon = createMarkerUi(50, 30);
+      if (element.cases > 400000 && element.cases < 900000) {
+        const covidIcon = createMarkerUi(60, 50);
 
         leaflet.marker([lat, long], { icon: covidIcon }).addTo(covidMap);
       }
@@ -35,8 +36,8 @@ const geoCovidMarker = (covidApiData) => {
 
         leaflet.marker([lat, long], { icon: covidIcon }).addTo(covidMap);
       }
-      if (element.cases > 700000) {
-        const covidIcon = createMarkerUi(70, 60);
+      if (element.cases > 900000) {
+        const covidIcon = createMarkerUi(100, 90);
 
         leaflet.marker([lat, long], { icon: covidIcon }).addTo(covidMap);
       }
@@ -61,7 +62,7 @@ const geoCovidMarker = (covidApiData) => {
 
 const createMarkerUi = (width, height) => {
   const covidMarker = leaflet.icon({
-    iconUrl: '../assets/images/covid-marker.png',
+    iconUrl: isCovidInfo ? '../assets/images/covid-marker1.png' : '../assets/images/covid-marker2.png',
     iconSize: [width, height],
     iconAnchor: [25, 16],
     className: 'marker_img',
@@ -76,7 +77,15 @@ const createPopupCovid = (geoFeature) => {
       const { properties } = covidGeoInf;
 
       const {
-        country, cases, deaths, recovered, todayCases, todayDeaths, todayRecovered,
+        population,
+        country,
+        cases,
+        deaths,
+        recovered,
+        todayCases,
+        todayDeaths,
+        todayRecovered,
+        casesPerOneMillion,
       } = properties;
 
       const marker = leaflet.marker(coordinates, {
@@ -87,6 +96,7 @@ const createPopupCovid = (geoFeature) => {
               <div class="covid__content">
                 <h2 class="covid__country">${country}:</h2>
                 <div>
+                  <span><h3 class="covid__info">Population: ${population} </h3></span>
                   <span><h3 class="covid__info">TotalConfirmed: ${cases} </h3></span>
                   <span><h3 class="covid__info">TotalDeaths: ${deaths}</h3></span>
                   <span><h3 class="covid__info">TotalRecovered: ${recovered}</h3></span>
@@ -100,6 +110,7 @@ const createPopupCovid = (geoFeature) => {
                   <span><h3 class="covid__info">TodayConfirmed: ${todayCases} </h3></span>
                   <span><h3 class="covid__info">TodayDeaths: ${todayDeaths} </h3></span>
                   <span><h3 class="covid__info">TodayRecovered: ${todayRecovered} </h3></span>
+                  <span><h3 class="covid__info">PerOneHundred: ${Math.round(casesPerOneMillion / 10)} </h3></span>
                 </div>
               </div>
             </div>`}`,
