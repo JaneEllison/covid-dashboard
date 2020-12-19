@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 const leaflet = window.L;
 const covidMap = leaflet.map('mapid').setView([0, 0], 2);
 
@@ -11,12 +10,15 @@ const tileLayerUrl = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_a
 const tiles = leaflet.tileLayer(tileLayerUrl, { attribution });
 tiles.addTo(covidMap);
 
-const covidData = async () => {
-  const response = await fetch('https://corona.lmao.ninja/v2/countries');
-  const covidApiData = await response.json();
+const createMarkerUi = (width, height) => {
+  const covidMarker = leaflet.icon({
+    iconUrl: isCovidInfo ? '../assets/images/covid-marker1.png' : '../assets/images/covid-marker2.png',
+    iconSize: [width, height],
+    iconAnchor: [25, 16],
+    className: 'marker_img',
+  });
 
-  const geoFeature = geoCovidMarker(covidApiData);
-  createPopupCovid(geoFeature);
+  return covidMarker;
 };
 
 const geoCovidMarker = (covidApiData) => {
@@ -58,17 +60,6 @@ const geoCovidMarker = (covidApiData) => {
   };
 
   return geoFormat;
-};
-
-const createMarkerUi = (width, height) => {
-  const covidMarker = leaflet.icon({
-    iconUrl: isCovidInfo ? '../assets/images/covid-marker1.png' : '../assets/images/covid-marker2.png',
-    iconSize: [width, height],
-    iconAnchor: [25, 16],
-    className: 'marker_img',
-  });
-
-  return covidMarker;
 };
 
 const createPopupCovid = (geoFeature) => {
@@ -125,6 +116,14 @@ const createPopupCovid = (geoFeature) => {
   geoJsonPoint.addTo(covidMap);
 };
 
+const covidData = async () => {
+  const response = await fetch('https://corona.lmao.ninja/v2/countries');
+  const covidApiData = await response.json();
+
+  const geoFeature = geoCovidMarker(covidApiData);
+  createPopupCovid(geoFeature);
+};
+
 const covidControlAction = (event) => {
   if (event.target.getAttribute('class').slice(-7) === 'control') return;
   const markerPopup = document.querySelectorAll('.markerPopup');
@@ -148,6 +147,6 @@ const covidControlAction = (event) => {
   }
 };
 
-covidControl.addEventListener('click', (event) => covidControlAction(event));
-
 covidData();
+
+covidControl.addEventListener('click', (event) => covidControlAction(event));
