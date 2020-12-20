@@ -4,6 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>COVID-19</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""></script>
+
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
 </head>
 <body>
   <div class="container">
@@ -19,7 +30,28 @@
       <div class="main__container">
         <div class="left__part">
           <div class="list"> </div>
-          <div class="map"> </div>
+          <div class="map">
+            <div id="mapid"></div>
+            <div class="map__legend">
+              <h2 class="map__legend_title">Legend</h2>
+              <p class="map__legend_list">
+                <img src="./assets/images/covid-marker1.png" style="width: 50xp; height: 40px;" alt="covid-marker">
+                <strong>Confirmed: 900000+</strong>
+              </p>
+              <p class="map__legend_list">
+                <img src="./assets/images/covid-marker1.png" style="width: 30xp; height: 30px;" alt="covid-marker">
+                <strong class="map__legend_list-center">Confirmed: 400000 to 900000</strong>
+              </p>
+              <p class="map__legend_list">
+                <img src="./assets/images/covid-marker1.png" style="width: 20xp; height: 20px;" alt="covid-marker">
+                <strong class="map__legend_list-bot">Confirmed: 100 to 400000</strong>
+              </p>
+            </div>
+            <div class="map__control">
+              <button class="map__control_total">Total Case</button>
+              <button class="map__control_today">Today Case</button>
+            </div>
+          </div>
         </div>
         <div class="right__part">
           <div class="table"></div>
@@ -39,7 +71,7 @@
           <span>2020</span>
           <a href="https://rs.school/js/" class="creators__info">
             <img src="assets/images/rs_school_js.svg" class="course__icon" alt="RSschool Logo">
-          </a>  
+          </a>
         </div>
       </div>
     </footer>
