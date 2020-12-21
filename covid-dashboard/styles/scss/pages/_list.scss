@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
 .fullscreen {
   position: absolute;
   display: flex;
@@ -25,10 +26,13 @@
     right: -0.5rem;
   }
 }
-.fullscreen__icon{
+
+.fullscreen__add_icon, .fullscreen__cancel_icon{
   width: 1.5rem;
   height: 1.5rem;
-
+  &.hide {
+    display: none;
+  }
 }
 
 .top__part {
