@@ -11,6 +11,7 @@
   display: flex;
   flex-direction: column;
   justify-content: left;
+  align-items: center;
 }
 
 .search {
@@ -28,6 +29,9 @@
     font-size: 1.2rem;
     padding: 0.5rem 0.5rem 0.5rem 3rem;
     border-radius: 0.3rem;
+    @media only screen and (max-width: 768px){
+      width: 50%;
+    }
   }
 }
 
@@ -65,6 +69,9 @@
     margin: 0 0.6rem;
     color: #ff1818;
   }
+  @media only screen and (max-width: 768px){
+    padding: 0 20rem;
+  }
 }
 
 .indicators__mode {
@@ -88,45 +95,51 @@
   .arrow__left {
     width: 0;
     height: 0;
-    border-top: 5px solid transparent;
-    border-right: 10px solid rgb(255, 255, 255);
-    border-bottom: 5px solid transparent;
+    border-top: 0.5rem solid transparent;
+    border-right: 1rem solid rgb(255, 255, 255);
+    border-bottom: 0.5rem solid transparent;
     &:hover{
       cursor: pointer;
     }
     &.unactive {
-      border-right: 10px solid rgb(141, 141, 141);
+      border-right: 1rem solid rgb(141, 141, 141);
       pointer-events: none;
     }
   }
   .arrow__right {
     width: 0;
     height: 0;
-    border-top: 5px solid transparent;
-    border-left: 10px solid rgb(255, 255, 255);
-    border-bottom: 5px solid transparent;
+    border-top: 0.5rem solid transparent;
+    border-left: 1rem solid rgb(255, 255, 255);
+    border-bottom: 0.5rem solid transparent;
     &:hover{
       cursor: pointer;
     }
     &.unactive {
-      border-left: 10px solid rgb(141, 141, 141);
+      border-left: 1rem solid rgb(141, 141, 141);
       pointer-events: none;
     }
   }
 }
 
 .swithers {
-  width: 100%;
+  min-width: 18rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  @media only screen and (max-width: 768px){
+    min-width: 28rem;
+  }
 }
 .switch {
   cursor: pointer;
   transform: scale(1);
   display: block;
-  width: 90%;
+  min-width: 16rem;
+  @media only screen and (max-width: 768px){
+    min-width: 28rem;
+  }
   &__input{
     display: none;
   }
@@ -165,8 +178,11 @@ input[type="checkbox"].switch__input:checked + .switch__label{
 }
 input[type="checkbox"].switch__input:checked + .switch__label .switch__handle{
   background: #ffffff;
-  transform: translateX(17rem);
+  transform: translateX(13rem);
   box-shadow: -2px 0px 4px 0px rgba(0,0,0,0.2);
+  @media only screen and (max-width: 768px){
+    transform: translateX(25rem);
+  }
 }
 .global__cases, .all__cases {
   font-size: 1.5rem;
