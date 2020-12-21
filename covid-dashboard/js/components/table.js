@@ -19,6 +19,8 @@ const tableAll = document.querySelector('.table__all');
 const tablePer100 = document.querySelector('.table__per100');
 const arrowRightCount = document.querySelector('.arrow__right_count');
 
+const totalBtn = document.querySelector('.total__btn');
+
 let responce;
 let responceAll;
 let isGlobalCasesMode = true;
@@ -192,6 +194,7 @@ arrowLeftCount.addEventListener('click', () => {
   getCountryInfo();
 });
 
+//choose country for table
 countries.addEventListener ('click', (event) => {
   cleanTable();
   let target = event.target;
@@ -199,6 +202,13 @@ countries.addEventListener ('click', (event) => {
   currentCountry = target.innerText;
   isCountryMode = true;
   getCountryInfo();
+});
+
+//return to total cases
+totalBtn.addEventListener ('click', () => {
+  isCountryMode = false;
+  cleanTable();
+  getInfoTable();
 })
 
 document.addEventListener ('DOMContentLoaded', () => {

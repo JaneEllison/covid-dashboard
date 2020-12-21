@@ -12,6 +12,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    overflow-x: auto;
   }
 }
 
@@ -37,4 +38,23 @@
 
 .country__numbers {
   color: #ff1818;
+}
+
+.total__btn {
+  width: 70%;
+}
+.total__cases_btn {
+  width: 100%;
+  margin-top: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem; 
+  background: #797979;
+  border-radius: 1rem;
+  font-size: 1.5rem;
+  color: #fff;
+  &:hover {
+    cursor: pointer;
+  }
 }
