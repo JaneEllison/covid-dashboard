@@ -9,8 +9,6 @@
   }
 }
 
-.list
-
 .fullscreen {
   position: absolute;
   display: none;
@@ -32,15 +30,10 @@
   }
 }
 
-.fullscreen__add_icon, .fullscreen__cancel_icon{
+.fullscreen__add_icon{
   width: 1.5rem;
   height: 1.5rem;
-  &.hide {
-    display: none;
-  }
 }
-
-
 
 .top__part {
   max-height: 93%;

@@ -1,7 +1,6 @@
 const fullscreenBtn = document.querySelector ('.fullscreen');
 const list = document.querySelector ('.list');
 const fullscreenAddIcon = document.querySelector ('.fullscreen__add_icon');
-const fullscreenCancelIcon = document.querySelector ('.fullscreen__cancel_icon');
 
 const countries = document.querySelector('.countries');
 const input = document.getElementById('search');
@@ -180,9 +179,6 @@ const fullScreenAdd = (element) => {
 };
 
 fullscreenBtn.addEventListener('click', () => {
-  fullscreenAddIcon.classList.toggle('hide');
-  fullscreenCancelIcon.classList.toggle('hide');
-
   if(!document.fullscreen) {
     fullScreenAdd(list);
     fullscreenBtn.style.top = '0.5rem';
