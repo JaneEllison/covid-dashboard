@@ -1,9 +1,34 @@
 .list {
+  position: relative;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow: hidden;
+}
+.fullscreen {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #797979;
+  width: 2.5rem;
+  height: 2.5rem;
+  top: -0.4rem;
+  right: -0.4rem;
+  border-radius: 50%;
+  &:hover {
+    cursor: pointer;
+    width: 2.8rem;
+    height: 2.8rem; 
+    background-color: #c7c6c6;
+    top: -0.5rem;
+    right: -0.5rem;
+  }
+}
+.fullscreen__icon{
+  width: 1.5rem;
+  height: 1.5rem;
+
 }
 
 .top__part {
