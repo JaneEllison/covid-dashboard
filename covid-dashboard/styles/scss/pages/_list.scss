@@ -4,11 +4,16 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  &:hover .fullscreen {
+    display: flex;
+  }
 }
+
+.list
 
 .fullscreen {
   position: absolute;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   background-color: #797979;
@@ -34,6 +39,8 @@
     display: none;
   }
 }
+
+
 
 .top__part {
   max-height: 93%;
