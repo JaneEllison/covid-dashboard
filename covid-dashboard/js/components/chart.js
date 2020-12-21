@@ -1,6 +1,9 @@
 const ctx = document.getElementById('chart_id');
 const globalCases = [];
 const dateStage = [];
+const rightDate = [];
+
+let covidChart;
 
 const covidData = async () => {
   const response = await fetch('https://corona-api.com/timeline');
@@ -14,12 +17,43 @@ const covidData = async () => {
     dateStage.push(el.date);
     globalCases.push(el.confirmed);
   });
+
+  sortData();
+};
+
+const sortData = () => {
+  globalCases.sort((a, b) => a - b);
+  dateStage.sort();
+
+  dateStage.forEach((el) => {
+    rightDate.push(formattedDate(el));
+  });
+};
+
+const monthsNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
+const formattedDate = (parseDate) => {
+  const date = new Date(parseDate);
+  return `${date.getDate()} ${monthsNames[date.getMonth()]}`;
 };
 
 const createCovidChart = async () => {
   await covidData();
 
-  const covidChart = new Chart(ctx, {
+  covidChart = new Chart(ctx, {
     type: 'line',
     data: {
       datasets: [{
@@ -30,7 +64,7 @@ const createCovidChart = async () => {
         backgroundColor: 'red',
         borderWidth: 1,
       }],
-      labels: dateStage,
+      labels: rightDate,
     },
     options: {
       scales: {
