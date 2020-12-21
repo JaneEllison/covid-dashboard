@@ -58,6 +58,9 @@
     align-items: center;
     justify-content: center;
   }
+  .country__name:hover {
+    cursor: pointer;
+  }
   .country__cases {
     margin: 0 0.6rem;
     color: #ff1818;
