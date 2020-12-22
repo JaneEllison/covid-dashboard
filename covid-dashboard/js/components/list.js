@@ -1,3 +1,6 @@
+import Keyboard from 'simple-keyboard';
+import swipe from 'swipe-keyboard';
+
 const fullscreenBtn = document.querySelector ('.fullscreen');
 const list = document.querySelector ('.list');
 
@@ -235,7 +238,7 @@ arrowLeft.addEventListener('click', () => {
     countClickArrow = 0;
     isDeathCasesMode = false;
     isConfirmedMode = true;
-  }  
+  }
   
   else if(countClickArrow === 2) {
     deaths.classList.remove('hide');
@@ -258,6 +261,37 @@ input.addEventListener('input', (event) => {
   countries.innerHTML = '';
 
   getInfo();
+});
+
+
+//add keboard
+const keyboardBtn = document.querySelector ('.keyboard__btn');
+const keyboardContainer = document.querySelector ('.keyboardContainer');
+
+let keyboard = new Keyboard({
+  onChange: input => onChange(input),
+  onKeyPress: button => onKeyPress(button),
+  useMouseEvents: true,
+});
+
+document.querySelector(".input").addEventListener("input", event => {
+  keyboard.setInput(event.target.value);
+});
+
+function onChange(input) {
+  document.querySelector(".input").value = input;
+  searchTerm = input;
+  countries.innerHTML = '';
+
+  getInfo();
+};
+
+function onKeyPress(button) {
+  console.log("Button pressed", button);
+};
+
+keyboardBtn.addEventListener ('click', () => {
+  keyboardContainer.classList.toggle('hide');
 });
 
 document.addEventListener ('DOMContentLoaded', () => {
