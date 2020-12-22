@@ -1,4 +1,6 @@
 const countries = document.querySelector('.countries');
+const table = document.querySelector ('.table');
+const fullscreenTableBtn = document.querySelector ('.fullscreen__table');
 
 const countryFlag = document.querySelector('.country__flag');
 const countryName = document.querySelector('.country__name');
@@ -209,7 +211,20 @@ totalBtn.addEventListener ('click', () => {
   isCountryMode = false;
   cleanTable();
   getInfoTable();
-})
+});
+
+//add full Screen
+fullscreenTableBtn.addEventListener('click', () => {
+  if(!document.fullscreen) {
+    table.requestFullscreen();
+    fullscreenTableBtn.style.top = '0.5rem';
+    fullscreenTableBtn.style.left = '0.5rem';
+  } else {
+    document.exitFullscreen();
+    fullscreenTableBtn.style.top = '-0.4rem';
+    fullscreenTableBtn.style.left = '-0.4rem';
+  };
+});
 
 document.addEventListener ('DOMContentLoaded', () => {
   getInfoTable();

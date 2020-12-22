@@ -1,4 +1,5 @@
 .table {
+  position: relative;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -17,6 +18,39 @@
   &__switchers {
     max-width: 18rem;
   }
+  &:hover .fullscreen__table {
+    display: flex;
+  }
+  &:fullscreen {
+    padding: 20rem 40rem;
+    background-color: rgb(197, 197, 197);
+  }
+}
+
+.fullscreen__table {
+  position: absolute;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background-color: #797979;
+  width: 2.5rem;
+  height: 2.5rem;
+  top: -0.4rem;
+  left: -0.4rem;
+  border-radius: 50%;
+  &:hover {
+    cursor: pointer;
+    width: 2.8rem;
+    height: 2.8rem; 
+    background-color: #c7c6c6;
+    top: -0.5rem;
+    left: -0.5rem;
+  }
+}
+
+.fullscreen__add_icon{
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .country__name {

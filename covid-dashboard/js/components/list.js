@@ -1,6 +1,5 @@
 const fullscreenBtn = document.querySelector ('.fullscreen');
 const list = document.querySelector ('.list');
-const fullscreenAddIcon = document.querySelector ('.fullscreen__add_icon');
 
 const countries = document.querySelector('.countries');
 const input = document.getElementById('search');
@@ -174,13 +173,9 @@ const changeSwitchersCasesMode = () => {
 };
 
 // add full Screen
-const fullScreenAdd = (element) => {
-  element.requestFullscreen();
-};
-
 fullscreenBtn.addEventListener('click', () => {
   if(!document.fullscreen) {
-    fullScreenAdd(list);
+    list.requestFullscreen();
     fullscreenBtn.style.top = '0.5rem';
     fullscreenBtn.style.right = '0.5rem';
   } else {
