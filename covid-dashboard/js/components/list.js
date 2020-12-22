@@ -1,5 +1,4 @@
 import Keyboard from 'simple-keyboard';
-import swipe from 'swipe-keyboard';
 
 const fullscreenBtn = document.querySelector ('.fullscreen');
 const list = document.querySelector ('.list');
@@ -20,6 +19,9 @@ const confirmed = document.querySelector ('.confirmed');
 const deaths = document.querySelector ('.deaths');
 const recovered = document.querySelector ('.recovered');
 
+const keyboardBtn = document.querySelector ('.keyboard__btn');
+const keyboardContainer = document.querySelector ('.keyboardContainer');
+
 let responce;
 let isGlobalCasesMode = true;
 let isAllCasesMode = true;
@@ -28,6 +30,12 @@ let isConfirmedMode = true;
 let isDeathCasesMode = false;
 let isRecoveredMode = false;
 let searchTerm = '';
+
+let keyboard = new Keyboard({
+  onChange: input => onChange(input),
+  onKeyPress: button => onKeyPress(button),
+  useMouseEvents: true,
+});
 
 const fetchData = async () => {
   responce = await fetch('https://corona.lmao.ninja/v2/countries').then((res) => res.json());                 
@@ -150,6 +158,18 @@ const createCards = (country, numbers) => {
   countryInfo.append(countryFlag, countryName);
 };
 
+const onChange = (input) => {
+  document.querySelector(".input").value = input;
+  searchTerm = input;
+  countries.innerHTML = '';
+
+  getInfo();
+};
+
+const onKeyPress = (button) => {
+  console.log("Button pressed", button);
+};
+
 //change Switchers
 const changeSwitchersDaysMode = () => {
   if(isGlobalCasesMode) {
@@ -263,32 +283,9 @@ input.addEventListener('input', (event) => {
   getInfo();
 });
 
-
-//add keboard
-const keyboardBtn = document.querySelector ('.keyboard__btn');
-const keyboardContainer = document.querySelector ('.keyboardContainer');
-
-let keyboard = new Keyboard({
-  onChange: input => onChange(input),
-  onKeyPress: button => onKeyPress(button),
-  useMouseEvents: true,
-});
-
 document.querySelector(".input").addEventListener("input", event => {
   keyboard.setInput(event.target.value);
 });
-
-function onChange(input) {
-  document.querySelector(".input").value = input;
-  searchTerm = input;
-  countries.innerHTML = '';
-
-  getInfo();
-};
-
-function onKeyPress(button) {
-  console.log("Button pressed", button);
-};
 
 keyboardBtn.addEventListener ('click', () => {
   keyboardContainer.classList.toggle('hide');
