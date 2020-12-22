@@ -16,6 +16,7 @@
   <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
   <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="container">
@@ -142,7 +143,17 @@
               <div class="total__cases_btn">World total cases</div>
             </div>
           </div>
-          <div class="chart"></div>
+          <div class="chart">
+            <canvas class="chart__global" id="chart_global_id"></canvas>
+            <canvas class="chart__daily" id="chart_daily_id"></canvas>
+            <canvas class="chart__hundred" id="chart_hundred_id"></canvas>
+
+            <div class="chart__control">
+              <button class="chart__control_global chart__control_btn open">Global Cases</button>
+              <button class="chart__control_daily chart__control_btn">For The Last Day Cases</button>
+              <button class="chart__control_hundred chart__control_btn">Per Hundred Thousand Cases</button>
+            </div>
+          </div>
         </div>
       </div>
     </main>
