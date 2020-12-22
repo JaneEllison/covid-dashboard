@@ -178,7 +178,7 @@ body {
   }
   .chart{
     height: 40%;
-    background-color:$components-color;
+    background-color:aliceblue;
     @media only screen and (max-width: 768px){
       height: 50%;
     }
@@ -273,4 +273,30 @@ body {
 
 .active {
   display: block !important;
+}
+
+.chart__control {
+  display: flex;
+  justify-content: space-between;
+
+  &_btn {
+    background: #7cb8fd;
+    border-radius: .8rem;
+    padding: .4rem .7rem;
+    color: $text-color;
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin: 0 .2rem;
+    border: none;
+    outline: none;
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba($base-color, .5);
+    }
+  }
+
+  .open {
+    background-color: cadetblue;
+  }
 }
