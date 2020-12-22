@@ -9,6 +9,10 @@
   &:hover .fullscreen {
     display: flex;
   }
+  &:fullscreen {
+    padding: 10rem 40rem;
+    background-color: rgb(53, 53, 53);
+  }
 }
 
 .virtual__keyboard {
@@ -17,6 +21,11 @@
   bottom: 4rem;
   z-index: 9999;
   width: 40rem;
+  &:fullscreen {
+    width: 80rem;
+    left: 40rem;
+    bottom: 4rem;
+  }
 }
 
 .fullscreen {
