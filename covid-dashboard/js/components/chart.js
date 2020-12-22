@@ -1,9 +1,22 @@
-const ctx = document.getElementById('chart_id');
+const chartGlobal = document.getElementById('chart_global_id');
+const globalCasesButton = document.querySelector('.chart__control_global');
+
+const worldCases = document.querySelector('.chart__global');
+
+const chartDaily = document.getElementById('chart_daily_id');
+const dailyCasesButton = document.querySelector('.chart__control_daily');
+
 const globalCases = [];
 const dateStage = [];
 const rightDate = [];
 
-let covidChart;
+const newCases = [];
+const lastDate = [];
+
+let globalChartCreated;
+let dailyChartCreated;
+
+let isShowChart = true;
 
 const covidData = async () => {
   const response = await fetch('https://corona-api.com/timeline');
@@ -18,6 +31,8 @@ const covidData = async () => {
     globalCases.push(el.confirmed);
   });
 
+  newCases.push(data[0].new_confirmed);
+
   sortData();
 };
 
@@ -28,6 +43,8 @@ const sortData = () => {
   dateStage.forEach((el) => {
     rightDate.push(formattedDate(el));
   });
+
+  lastDate.push(dateStage[dateStage.length - 1]);
 };
 
 const monthsNames = [
@@ -50,10 +67,12 @@ const formattedDate = (parseDate) => {
   return `${date.getDate()} ${monthsNames[date.getMonth()]}`;
 };
 
-const createCovidChart = async () => {
+const createGlobalChart = async () => {
+  worldCases.classList.add('active');
+
   await covidData();
 
-  covidChart = new Chart(ctx, {
+  globalChartCreated = new Chart(chartGlobal, {
     type: 'line',
     data: {
       datasets: [{
@@ -80,4 +99,51 @@ const createCovidChart = async () => {
   });
 };
 
-createCovidChart();
+const globalChartAction = () => {
+  if (!isShowChart) {
+    chartDaily.classList.remove('active');
+    worldCases.classList.add('active');
+    isShowChart = true;
+  }
+};
+
+const dailyChartAction = () => {
+  if (isShowChart) {
+    worldCases.classList.remove('active');
+    chartDaily.classList.add('active');
+    isShowChart = false;
+  }
+};
+
+const createDailyChart = async () => {
+  dailyChartCreated = new Chart(chartDaily, {
+    type: 'bar',
+    data: {
+      datasets: [{
+        label: 'Global Cases',
+        data: newCases,
+        fill: false,
+        borderColor: 'blue',
+        backgroundColor: 'blue',
+        borderWidth: 1,
+      }],
+      labels: lastDate,
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+          },
+        }],
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  });
+};
+
+globalCasesButton.addEventListener('click', () => globalChartAction());
+dailyCasesButton.addEventListener('click', () => dailyChartAction());
+createGlobalChart();
+createDailyChart();

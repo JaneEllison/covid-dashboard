@@ -58,7 +58,14 @@
         <div class="right__part">
           <div class="table"></div>
           <div class="chart">
-            <canvas id="chart_id"></canvas>
+            <canvas class="chart__global" id="chart_global_id"></canvas>
+            <canvas class="chart__daily" id="chart_daily_id"></canvas>
+
+            <div class="chart__control">
+              <button class="chart__control_global">Global Cases</button>
+              <button class="chart__control_daily">For The Last Day Cases</button>
+              <button class="chart__control_hundred">Per Hundred Thousand Cases</button>
+            </div>
           </div>
         </div>
       </div>

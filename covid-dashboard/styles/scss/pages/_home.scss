@@ -258,3 +258,15 @@ body {
   color: mediumblue;
   margin: 0.2rem;
 }
+
+.chart__global {
+  display: none !important;
+}
+
+.chart__daily {
+  display: none !important;
+}
+
+.active {
+  display: block !important;
+}
