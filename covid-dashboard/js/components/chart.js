@@ -10,8 +10,10 @@ const globalCases = [];
 const dateStage = [];
 const rightDate = [];
 
-const newCases = [];
-const lastDate = [];
+const newConfirmed = [];
+let lastDate = '';
+const newRecovered = [];
+const newDeaths = [];
 
 let globalChartCreated;
 let dailyChartCreated;
@@ -31,9 +33,13 @@ const covidData = async () => {
     globalCases.push(el.confirmed);
   });
 
-  newCases.push(data[0].new_confirmed);
+  newConfirmed.push(data[0].new_confirmed);
+  newRecovered.push(data[0].new_recovered);
+  newDeaths.push(data[0].new_deaths);
+  lastDate += data[0].date;
 
   sortData();
+  createDailyChart();
 };
 
 const sortData = () => {
@@ -44,7 +50,7 @@ const sortData = () => {
     rightDate.push(formattedDate(el));
   });
 
-  lastDate.push(dateStage[dateStage.length - 1]);
+//   lastDate += dateStage[dateStage.length - 1];
 };
 
 const monthsNames = [
@@ -115,27 +121,27 @@ const dailyChartAction = () => {
   }
 };
 
-const createDailyChart = async () => {
+const createDailyChart = () => {
   dailyChartCreated = new Chart(chartDaily, {
-    type: 'bar',
+    type: 'doughnut',
     data: {
-      datasets: [{
-        label: 'Global Cases',
-        data: newCases,
-        fill: false,
-        borderColor: 'blue',
-        backgroundColor: 'blue',
-        borderWidth: 1,
-      }],
-      labels: lastDate,
+      datasets: [
+        {
+          label: 'Today`s Chart',
+          backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f'],
+          data: [newConfirmed, newRecovered, newDeaths],
+        },
+      ],
+      labels: [
+        'New Confirmed',
+        'New Recovered',
+        'New Deaths',
+      ],
     },
     options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-          },
-        }],
+      title: {
+        display: true,
+        text: `Today\`s Cases: ${lastDate}`,
       },
       responsive: true,
       maintainAspectRatio: false,
@@ -146,4 +152,3 @@ const createDailyChart = async () => {
 globalCasesButton.addEventListener('click', () => globalChartAction());
 dailyCasesButton.addEventListener('click', () => dailyChartAction());
 createGlobalChart();
-createDailyChart();
