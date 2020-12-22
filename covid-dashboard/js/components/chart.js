@@ -28,7 +28,13 @@ let isShowChart = true;
 let isHundredChart = true;
 
 const worldPopulationPer100 = 78270;
-const globalHundredCases = [];
+const globalHundredConfirmed = [];
+const globalHundredDeaths = [];
+const globalHundredRecovered = [];
+
+const todayHundredConfirmed = [];
+const todayHundredDeaths = [];
+const todayHundredRecovered = [];
 
 const covidData = async () => {
   const response = await fetch('https://corona-api.com/timeline');
@@ -42,7 +48,13 @@ const covidData = async () => {
     globalDeaths.push(el.deaths);
     globalRecovered.push(el.recovered);
 
-    globalHundredCases.push(Math.round(el.confirmed / worldPopulationPer100));
+    globalHundredConfirmed.push(Math.round(el.confirmed / worldPopulationPer100));
+    globalHundredDeaths.push(Math.round(el.deaths / worldPopulationPer100));
+    globalHundredRecovered.push(Math.round(el.recovered / worldPopulationPer100));
+
+    todayHundredConfirmed.push(Math.round(el.new_confirmed / worldPopulationPer100));
+    todayHundredDeaths.push(Math.round(el.new_deaths / worldPopulationPer100));
+    todayHundredRecovered.push(Math.round(el.new_recovered / worldPopulationPer100));
   });
 
   newConfirmed.push(data[0].new_confirmed);
@@ -59,7 +71,15 @@ const sortData = () => {
   globalConfirmed.sort((a, b) => a - b);
   globalDeaths.sort((a, b) => a - b);
   globalRecovered.sort((a, b) => a - b);
-  globalHundredCases.sort((a, b) => a - b);
+
+  globalHundredConfirmed.sort((a, b) => a - b);
+  globalHundredDeaths.sort((a, b) => a - b);
+  globalHundredRecovered.sort((a, b) => a - b);
+
+  todayHundredConfirmed.sort((a, b) => a - b);
+  todayHundredDeaths.sort((a, b) => a - b);
+  todayHundredRecovered.sort((a, b) => a - b);
+
   dateStage.sort();
 
   dateStage.forEach((el) => {
@@ -211,10 +231,50 @@ const createHundredChart = () => {
       datasets: [
         {
           label: 'Global Per 100 Confirmed',
-          data: globalHundredCases,
+          data: globalHundredConfirmed,
           fill: false,
           borderColor: '#3e95cd',
           backgroundColor: '#3e95cd',
+          borderWidth: 1,
+        },
+        {
+          label: 'Global Per 100 Recovered',
+          data: globalHundredRecovered,
+          fill: false,
+          borderColor: '#8e5ea2',
+          backgroundColor: '#8e5ea2',
+          borderWidth: 1,
+        },
+        {
+          label: 'Global Per 100 Deaths',
+          data: globalHundredDeaths,
+          fill: false,
+          borderColor: 'red',
+          backgroundColor: 'red',
+          borderWidth: 1,
+        },
+        {
+          label: 'Today Per 100 Confirmed',
+          data: todayHundredConfirmed,
+          fill: false,
+          borderColor: 'black',
+          backgroundColor: 'black',
+          borderWidth: 1,
+        },
+        {
+          label: 'Today Per 100 Recovered',
+          data: todayHundredRecovered,
+          fill: false,
+          borderColor: 'blue',
+          backgroundColor: 'blue',
+          borderWidth: 1,
+        },
+        {
+          label: 'Today Per 100 Deaths',
+          data: todayHundredDeaths,
+          fill: false,
+          borderColor: '#3cba9f',
+          backgroundColor: '#3cba9f',
           borderWidth: 1,
         },
       ],
@@ -225,7 +285,8 @@ const createHundredChart = () => {
         display: true,
         position: 'top',
         labels: {
-          boxWidth: 50,
+          boxWidth: 20,
+          fontSize: 11,
           fontColor: 'antiquewhite',
         },
       },
