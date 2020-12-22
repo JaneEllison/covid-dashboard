@@ -6,7 +6,8 @@ const worldCases = document.querySelector('.chart__global');
 const chartDaily = document.getElementById('chart_daily_id');
 const dailyCasesButton = document.querySelector('.chart__control_daily');
 
-// const hundredCasesButton = document.querySelector('.chart__control_hundred');
+const chartHundred = document.getElementById('chart_hundred_id');
+const hundredCasesButton = document.querySelector('.chart__control_hundred');
 
 const globalConfirmed = [];
 const globalDeaths = [];
@@ -21,8 +22,13 @@ const newDeaths = [];
 
 let globalChartCreated;
 let dailyChartCreated;
+let hundredChartCreated;
 
 let isShowChart = true;
+let isHundredChart = true;
+
+const worldPopulationPer100 = 78270;
+const globalHundredCases = [];
 
 const covidData = async () => {
   const response = await fetch('https://corona-api.com/timeline');
@@ -35,6 +41,8 @@ const covidData = async () => {
     globalConfirmed.push(el.confirmed);
     globalDeaths.push(el.deaths);
     globalRecovered.push(el.recovered);
+
+    globalHundredCases.push(Math.round(el.confirmed / worldPopulationPer100));
   });
 
   newConfirmed.push(data[0].new_confirmed);
@@ -44,12 +52,14 @@ const covidData = async () => {
 
   sortData();
   createDailyChart();
+  createHundredChart();
 };
 
 const sortData = () => {
   globalConfirmed.sort((a, b) => a - b);
   globalDeaths.sort((a, b) => a - b);
   globalRecovered.sort((a, b) => a - b);
+  globalHundredCases.sort((a, b) => a - b);
   dateStage.sort();
 
   dateStage.forEach((el) => {
@@ -138,18 +148,22 @@ const createGlobalChart = async () => {
 };
 
 const globalChartAction = () => {
-  if (!isShowChart) {
+  if (!isShowChart || !isHundredChart) {
     chartDaily.classList.remove('active');
     worldCases.classList.add('active');
+    chartHundred.classList.remove('active');
     isShowChart = true;
+    isHundredChart = true;
   }
 };
 
 const dailyChartAction = () => {
-  if (isShowChart) {
+  if (isShowChart || !isHundredChart) {
     worldCases.classList.remove('active');
     chartDaily.classList.add('active');
+    chartHundred.classList.remove('active');
     isShowChart = false;
+    isHundredChart = true;
   }
 };
 
@@ -181,6 +195,47 @@ const createDailyChart = () => {
   });
 };
 
+const hundredChartAction = () => {
+  if (isHundredChart) {
+    worldCases.classList.remove('active');
+    chartDaily.classList.remove('active');
+    chartHundred.classList.add('active');
+    isHundredChart = false;
+  }
+};
+
+const createHundredChart = () => {
+  hundredChartCreated = new Chart(chartHundred, {
+    type: 'line',
+    data: {
+      datasets: [
+        {
+          label: 'Global Per 100 Confirmed',
+          data: globalHundredCases,
+          fill: false,
+          borderColor: '#3e95cd',
+          backgroundColor: '#3e95cd',
+          borderWidth: 1,
+        },
+      ],
+      labels: rightDate,
+    },
+    options: {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          boxWidth: 50,
+          fontColor: 'antiquewhite',
+        },
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  });
+};
+
 globalCasesButton.addEventListener('click', () => globalChartAction());
 dailyCasesButton.addEventListener('click', () => dailyChartAction());
+hundredCasesButton.addEventListener('click', () => hundredChartAction());
 createGlobalChart();
