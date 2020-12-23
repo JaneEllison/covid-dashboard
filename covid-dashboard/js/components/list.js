@@ -38,7 +38,8 @@ let keyboard = new Keyboard({
 });
 
 const fetchData = async () => {
-  responce = await fetch('https://corona.lmao.ninja/v2/countries').then((res) => res.json());                 
+  responce = await fetch('https://corona.lmao.ninja/v2/countries')
+  .then((res) => res.json());                 
 };
 
 const getInfo = async () => {
