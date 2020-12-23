@@ -78,5 +78,6 @@
   color: #fff;
   &:hover {
     cursor: pointer;
+    box-shadow: 0 2px 6px rgba($base-color, .5);
   }
 }
