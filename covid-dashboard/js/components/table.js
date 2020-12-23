@@ -221,11 +221,11 @@ fullscreenTableBtn.addEventListener('click', () => {
   if(!document.fullscreen) {
     table.requestFullscreen();
     fullscreenTableBtn.style.top = '0.5rem';
-    fullscreenTableBtn.style.left = '0.5rem';
+    fullscreenTableBtn.style.right = '0.5rem';
   } else {
     document.exitFullscreen();
     fullscreenTableBtn.style.top = '-0.4rem';
-    fullscreenTableBtn.style.left = '-0.4rem';
+    fullscreenTableBtn.style.right = '-0.4rem';
   };
 });
 

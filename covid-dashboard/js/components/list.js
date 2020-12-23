@@ -1,6 +1,6 @@
 import Keyboard from 'simple-keyboard';
 
-const fullscreenBtn = document.querySelector ('.fullscreen');
+const fullscreenBtn = document.querySelector ('.fullscreen__list');
 const list = document.querySelector ('.list');
 
 const countries = document.querySelector('.countries');
