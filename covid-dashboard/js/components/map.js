@@ -77,6 +77,8 @@ const createPopupCovid = (geoFeature) => {
         todayDeaths,
         todayRecovered,
         casesPerOneMillion,
+        recoveredPerOneMillion,
+        deathsPerOneMillion,
       } = properties;
 
       const marker = leaflet.marker(coordinates, {
@@ -101,7 +103,9 @@ const createPopupCovid = (geoFeature) => {
                   <span><h3 class="covid__info">TodayConfirmed: ${todayCases} </h3></span>
                   <span><h3 class="covid__info">TodayDeaths: ${todayDeaths} </h3></span>
                   <span><h3 class="covid__info">TodayRecovered: ${todayRecovered} </h3></span>
-                  <span><h3 class="covid__info">PerOneHundred: ${Math.round(casesPerOneMillion / 10)} </h3></span>
+                  <span><h3 class="covid__info">Per100 Corfirmed: ${Math.round(casesPerOneMillion / 10)} </h3></span>
+                  <span><h3 class="covid__info">Per100 Recovered: ${Math.round(recoveredPerOneMillion / 10)} </h3></span>
+                  <span><h3 class="covid__info">Per100 Deaths: ${Math.round(deathsPerOneMillion / 10)} </h3></span>
                 </div>
               </div>
             </div>`}`,
@@ -128,6 +132,7 @@ const covidControlAction = (event) => {
   if (event.target.getAttribute('class').slice(-7) === 'control') return;
   const markerPopup = document.querySelectorAll('.markerPopup');
   const markerImg = document.querySelectorAll('.marker_img');
+  const activeBtn = document.querySelector('.actual');
 
   markerImg.forEach((el) => {
     el.remove();
@@ -145,6 +150,11 @@ const covidControlAction = (event) => {
     isCovidInfo = false;
     covidData();
   }
+
+  if (activeBtn !== null) {
+    activeBtn.classList.remove('actual');
+  }
+  event.target.classList.add('actual');
 };
 
 covidMap.addControl(new leaflet.Control.Fullscreen());

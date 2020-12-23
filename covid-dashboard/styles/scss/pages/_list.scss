@@ -12,7 +12,8 @@
   }
   &:fullscreen {
     padding: 10rem 40rem;
-    background-color: rgb(53, 53, 53);
+    background: url(../../assets/images/bg-covid.jpeg);
+    background-size: cover;
   }
 }
 
@@ -37,7 +38,7 @@
   display: none;
   align-items: center;
   justify-content: center;
-  background-color: #797979;
+  background-color: #c0c0c0;
   width: 2.5rem;
   height: 2.5rem;
   top: -0.4rem;
@@ -117,7 +118,7 @@
   .country__name, .country__cases {
     display: flex;
     font-size: 1.4rem;
-    color: #ffffff;
+    color: #050011;
     align-items: center;
     justify-content: center;
     text-align: left;
@@ -127,7 +128,7 @@
   }
   .country__cases {
     margin: 0 0.6rem;
-    color: #ff1818;
+    color:  #ff1818;
   }
   @media only screen and (max-width: 768px){
   }
@@ -146,7 +147,7 @@
     width: 85%;
     height: 2rem;
     font-size: 1.5rem;
-    color: rgb(255, 255, 255);
+    color: rgb(5, 0, 17);
     @media only screen and (max-width: 768px){
       width: 75%;
     }
@@ -158,7 +159,7 @@
     width: 0;
     height: 0;
     border-top: 0.5rem solid transparent;
-    border-right: 1rem solid rgb(255, 255, 255);
+    border-right: 1rem solid rgb(46, 46, 46);
     border-bottom: 0.5rem solid transparent;
     &:hover{
       cursor: pointer;
@@ -172,7 +173,7 @@
     width: 0;
     height: 0;
     border-top: 0.5rem solid transparent;
-    border-left: 1rem solid rgb(255, 255, 255);
+    border-left: 1rem solid rgb(46, 46, 46);
     border-bottom: 0.5rem solid transparent;
     &:hover{
       cursor: pointer;
@@ -225,7 +226,7 @@
     position: relative;
     width: 100%; 
     height: 2rem; 
-    background: #797979;
+    background-color: #7cb8fd;
     border-radius: 2rem;
   }
   &__handle{
@@ -233,7 +234,7 @@
     position: absolute;
     width: 3rem; 
     height: 3rem; 
-    background: #7e0000;
+    background: cadetblue;
     border-radius: 50%;
     top: -0.5rem;
     box-shadow: 0.2rem 0rem 0.4rem 0rem rgba(0,0,0,0.25);
@@ -245,10 +246,10 @@
   transition: 0.3s all cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 input[type="checkbox"].switch__input:checked + .switch__label{
-  background: #ffffff;
+  background: cadetblue;
 }
 input[type="checkbox"].switch__input:checked + .switch__label .switch__handle{
-  background: #ffffff;
+  background-color: #7cb8fd;
   transform: translateX(15rem);
   box-shadow: -2px 0px 4px 0px rgba(0,0,0,0.2);
 }
@@ -262,7 +263,7 @@ input[type="checkbox"].switch__input:checked + .switch__label .switch__handle{
   font-size: 1.5rem;
   text-align: center;
   margin-top: 0.2rem;
-  color: #002905;
+  color: #ffffff;
 }
 .view__mode.hide {
   display: none;

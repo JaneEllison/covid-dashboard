@@ -208,7 +208,6 @@ countries.addEventListener ('click', (event) => {
     currentCountry = target.innerText;
   }
   isCountryMode = true;
-  console.log (event.target);
 
   getCurrentCountry(); 
   getCountryInfo();

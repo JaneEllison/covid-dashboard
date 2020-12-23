@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(44, 44, 44);
+    margin-bottom: 0.2rem;
   }
   &__info {
     width: 90%;
@@ -27,7 +27,8 @@
   }
   &:fullscreen {
     padding: 20rem 40rem;
-    background-color: rgb(53, 53, 53);
+    background: url(../../assets/images/bg-covid.jpeg);
+    background-size: cover;
   }
 }
 
@@ -36,7 +37,7 @@
   margin-left: 0.6rem;
   font-size: 2.3rem;
   text-align: center;
-  color:#f3f3f3;
+  color: rgb(46, 46, 46);
 }
 
 .flag__img {
@@ -49,7 +50,9 @@
   justify-content: space-between;
   margin-bottom: 0.5rem;
   font-size: 1.5rem;
-  color: #fff;
+  &_name {
+    color: rgb(46, 46, 46);
+  }
 }
 
 .country__numbers {
@@ -57,7 +60,7 @@
 }
 
 .total__btn {
-  min-width: 90%;
+  min-width: 80%;
   display: flex;
   justify-content: center;
 }
@@ -69,7 +72,7 @@
   align-items: center;
   justify-content: center;
   height: 2rem; 
-  background: #797979;
+  background-color: #7cb8fd;
   border-radius: 1rem;
   font-size: 1.5rem;
   color: #fff;
