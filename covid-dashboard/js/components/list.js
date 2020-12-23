@@ -1,3 +1,4 @@
+
 const fullscreenBtn = document.querySelector ('.fullscreen__list');
 const list = document.querySelector ('.list');
 
@@ -21,6 +22,7 @@ const keyboardBtn = document.querySelector ('.keyboard__btn');
 const keyboardContainer = document.querySelector ('.keyboardContainer');
 const virtualKeyboard = document.querySelector ('.virtual__keyboard');
 
+
 let DATA;
 let isGlobalCasesMode = true;
 let isAllCasesMode = true;
@@ -34,6 +36,7 @@ let Keyboard = window.SimpleKeyboard.default;
 
 let myKeyboard = new Keyboard({
   onChange: input => onChange(input),
+
   useMouseEvents: true,
 });
 

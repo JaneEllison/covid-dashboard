@@ -202,6 +202,7 @@ arrowLeftCount.addEventListener('click', () => {
 countries.addEventListener ('click', (event) => {
   cleanTable();
   let target = event.target;
+
   if (target.className !== 'country__name') {
     currentCountry = currentCountry;
   } else {
