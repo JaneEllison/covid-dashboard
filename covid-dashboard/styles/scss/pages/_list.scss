@@ -18,15 +18,18 @@
 
 .virtual__keyboard {
   position: absolute;
-  left: 0;
-  bottom: 4rem;
+  left: -50rem;
+  top: 0;
   z-index: 9999;
-  width: 40rem;
-  &:fullscreen {
-    width: 80rem;
-    left: 40rem;
-    bottom: 4rem;
-  }
+  width: 50rem;
+  bottom: auto;
+}
+
+.virtual__keyboard.fullscreen_keyb{
+  position: absolute;
+  left: 0;
+  top: auto;
+  bottom: 0;
 }
 
 .fullscreen {

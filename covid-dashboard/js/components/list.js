@@ -1,5 +1,3 @@
-import Keyboard from 'simple-keyboard';
-
 const fullscreenBtn = document.querySelector ('.fullscreen__list');
 const list = document.querySelector ('.list');
 
@@ -21,6 +19,7 @@ const recovered = document.querySelector ('.recovered');
 
 const keyboardBtn = document.querySelector ('.keyboard__btn');
 const keyboardContainer = document.querySelector ('.keyboardContainer');
+const virtualKeyboard = document.querySelector ('.virtual__keyboard');
 
 let DATA;
 let isGlobalCasesMode = true;
@@ -31,7 +30,9 @@ let isDeathCasesMode = false;
 let isRecoveredMode = false;
 let searchTerm = '';
 
-let keyboard = new Keyboard({
+let Keyboard = window.SimpleKeyboard.default;
+
+let myKeyboard = new Keyboard({
   onChange: input => onChange(input),
   onKeyPress: button => onKeyPress(button),
   useMouseEvents: true,
@@ -204,10 +205,12 @@ const changeSwitchersCasesMode = () => {
 fullscreenBtn.addEventListener('click', () => {
   if(!document.fullscreen) {
     list.requestFullscreen();
+    virtualKeyboard.classList.add('fullscreen_keyb');
     fullscreenBtn.style.top = '0.5rem';
     fullscreenBtn.style.right = '0.5rem';
   } else {
     document.exitFullscreen();
+    virtualKeyboard.classList.remove('fullscreen_keyb');
     fullscreenBtn.style.top = '-0.4rem';
     fullscreenBtn.style.right = '-0.4rem';
   };
