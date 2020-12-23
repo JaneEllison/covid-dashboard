@@ -34,7 +34,6 @@ let Keyboard = window.SimpleKeyboard.default;
 
 let myKeyboard = new Keyboard({
   onChange: input => onChange(input),
-  onKeyPress: button => onKeyPress(button),
   useMouseEvents: true,
 });
 
@@ -173,10 +172,6 @@ const onChange = (input) => {
   getInfo();
 };
 
-const onKeyPress = (button) => {
-  console.log("Button pressed", button);
-};
-
 //change Switchers
 const changeSwitcherModeBtn = (firstMode, secondMode) => {
   firstMode.classList.toggle('hide');
@@ -229,11 +224,8 @@ countsMode.addEventListener('click', () => {
 });
 
 //change indicators
-console.log(arrowRight)
-
 arrowRight.addEventListener('click', () => {
   if(countClickArrow === 0) {
-    console.log('aa')
     confirmed.classList.add('hide');
     deaths.classList.remove('hide');
     

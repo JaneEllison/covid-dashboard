@@ -202,9 +202,14 @@ arrowLeftCount.addEventListener('click', () => {
 countries.addEventListener ('click', (event) => {
   cleanTable();
   let target = event.target;
-  if (target.className != 'country__name') return;
-  currentCountry = target.innerText;
+  if (target.className !== 'country__name') {
+    currentCountry = currentCountry;
+  } else {
+    currentCountry = target.innerText;
+  }
   isCountryMode = true;
+  console.log (event.target);
+
   getCurrentCountry(); 
   getCountryInfo();
 });
