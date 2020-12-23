@@ -11,6 +11,8 @@ const chartHundred = document.getElementById('chart_hundred_id');
 const hundredCasesButton = document.querySelector('.chart__control_hundred');
 
 const chartBtnContainer = document.querySelector('.chart__control');
+const fullscreenChartBtn = document.querySelector ('.fullscreen__chart');
+const chart = document.querySelector ('.chart');
 
 const globalConfirmed = [];
 const globalDeaths = [];
@@ -316,6 +318,18 @@ const createGlobalChart = async () => {
 
   return globalChartCreated;
 };
+
+fullscreenChartBtn.addEventListener('click', () => {
+  if(!document.fullscreen) {
+    chart.requestFullscreen();
+    fullscreenChartBtn.style.top = '0.5rem';
+    fullscreenChartBtn.style.right = '0.5rem';
+  } else {
+    document.exitFullscreen();
+    fullscreenChartBtn.style.top = '-0.4rem';
+    fullscreenChartBtn.style.right = '-0.4rem';
+  };
+});
 
 globalCasesButton.addEventListener('click', () => globalChartAction());
 dailyCasesButton.addEventListener('click', () => dailyChartAction());

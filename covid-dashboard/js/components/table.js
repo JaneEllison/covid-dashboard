@@ -174,7 +174,7 @@ arrowLeftDays.addEventListener('click', () => {
 arrowRightCount.addEventListener('click', () => {
 
   if(isAllCasesMode) {
-    changeTableNameMode(tableGlobal, tableDaily);
+    changeTableNameMode(tableAll, tablePer100);
     changeTableArrows(arrowLeftCount, arrowRightCount);
     isAllCasesMode = false;
   }
@@ -188,7 +188,7 @@ arrowRightCount.addEventListener('click', () => {
 arrowLeftCount.addEventListener('click', () => {
 
   if(!isAllCasesMode) {
-    changeTableNameMode(tableGlobal, tableDaily);
+    changeTableNameMode(tableAll, tablePer100);
     changeTableArrows(arrowLeftCount, arrowRightCount);
     isAllCasesMode = true;
   }
@@ -202,9 +202,14 @@ arrowLeftCount.addEventListener('click', () => {
 countries.addEventListener ('click', (event) => {
   cleanTable();
   let target = event.target;
-  if (target.className != 'country__name') return;
-  currentCountry = target.innerText;
+
+  if (target.className !== 'country__name') {
+    currentCountry = currentCountry;
+  } else {
+    currentCountry = target.innerText;
+  }
   isCountryMode = true;
+
   getCurrentCountry(); 
   getCountryInfo();
 });
@@ -221,11 +226,11 @@ fullscreenTableBtn.addEventListener('click', () => {
   if(!document.fullscreen) {
     table.requestFullscreen();
     fullscreenTableBtn.style.top = '0.5rem';
-    fullscreenTableBtn.style.left = '0.5rem';
+    fullscreenTableBtn.style.right = '0.5rem';
   } else {
     document.exitFullscreen();
     fullscreenTableBtn.style.top = '-0.4rem';
-    fullscreenTableBtn.style.left = '-0.4rem';
+    fullscreenTableBtn.style.right = '-0.4rem';
   };
 });
 

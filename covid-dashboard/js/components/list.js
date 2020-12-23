@@ -1,6 +1,5 @@
-import Keyboard from 'simple-keyboard';
 
-const fullscreenBtn = document.querySelector ('.fullscreen');
+const fullscreenBtn = document.querySelector ('.fullscreen__list');
 const list = document.querySelector ('.list');
 
 const countries = document.querySelector('.countries');
@@ -13,14 +12,16 @@ const dailyCases = document.querySelector('.daily__cases');
 const allCases = document.querySelector('.all__cases');
 const thousandsCases = document.querySelector('.thousands__cases');
 
-const arrowRight = document.querySelector ('.arrow__right');
-const arrowLeft = document.querySelector ('.arrow__left');
+const arrowRight = document.querySelector ('.arrow__right_list');
+const arrowLeft = document.querySelector ('.arrow__left_list');
 const confirmed = document.querySelector ('.confirmed');
 const deaths = document.querySelector ('.deaths');
 const recovered = document.querySelector ('.recovered');
 
 const keyboardBtn = document.querySelector ('.keyboard__btn');
 const keyboardContainer = document.querySelector ('.keyboardContainer');
+const virtualKeyboard = document.querySelector ('.virtual__keyboard');
+
 
 let DATA;
 let isGlobalCasesMode = true;
@@ -31,9 +32,11 @@ let isDeathCasesMode = false;
 let isRecoveredMode = false;
 let searchTerm = '';
 
-let keyboard = new Keyboard({
+let Keyboard = window.SimpleKeyboard.default;
+
+let myKeyboard = new Keyboard({
   onChange: input => onChange(input),
-  onKeyPress: button => onKeyPress(button),
+
   useMouseEvents: true,
 });
 
@@ -172,10 +175,6 @@ const onChange = (input) => {
   getInfo();
 };
 
-const onKeyPress = (button) => {
-  console.log("Button pressed", button);
-};
-
 //change Switchers
 const changeSwitcherModeBtn = (firstMode, secondMode) => {
   firstMode.classList.toggle('hide');
@@ -204,10 +203,12 @@ const changeSwitchersCasesMode = () => {
 fullscreenBtn.addEventListener('click', () => {
   if(!document.fullscreen) {
     list.requestFullscreen();
+    virtualKeyboard.classList.add('fullscreen_keyb');
     fullscreenBtn.style.top = '0.5rem';
     fullscreenBtn.style.right = '0.5rem';
   } else {
     document.exitFullscreen();
+    virtualKeyboard.classList.remove('fullscreen_keyb');
     fullscreenBtn.style.top = '-0.4rem';
     fullscreenBtn.style.right = '-0.4rem';
   };
