@@ -22,7 +22,7 @@ const recovered = document.querySelector ('.recovered');
 const keyboardBtn = document.querySelector ('.keyboard__btn');
 const keyboardContainer = document.querySelector ('.keyboardContainer');
 
-let responce;
+let DATA;
 let isGlobalCasesMode = true;
 let isAllCasesMode = true;
 let countClickArrow = 0;
@@ -38,15 +38,20 @@ let keyboard = new Keyboard({
 });
 
 const fetchData = async () => {
-  responce = await fetch('https://corona.lmao.ninja/v2/countries')
+  DATA = await fetch('https://corona.lmao.ninja/v2/countries')
   .then((res) => res.json());                 
 };
+
+const seachCountries = () => {
+  DATA = DATA.filter((country) => country.country.toLowerCase().includes(searchTerm.toLowerCase()));
+}
 
 const getInfo = async () => {
 
   await fetchData();
+  seachCountries();
 
-  responce.forEach((country) => {
+  DATA.forEach((country) => {
     if (country.country === 'MS Zaandam') {
       country.population = 76804;
     }
@@ -55,29 +60,29 @@ const getInfo = async () => {
     }
   });
 
-  responce = responce.filter((country) => country.country.toLowerCase().includes(searchTerm.toLowerCase()));
+
 
   if(isGlobalCasesMode && isAllCasesMode && isConfirmedMode) {
-    responce.sort((a, b) => a.cases < b.cases ? 1 : -1);
-    responce.forEach((country) => createCards(country, country.cases));
+    DATA.sort((a, b) => a.cases < b.cases ? 1 : -1);
+    DATA.forEach((country) => createCards(country, country.cases));
   } 
   else if(!isGlobalCasesMode && isAllCasesMode && isConfirmedMode) {
-    responce.sort((a, b) => a.todayCases < b.todayCases ? 1 : -1);
-    responce.forEach((country) => createCards(country, country.todayCases));
+    DATA.sort((a, b) => a.todayCases < b.todayCases ? 1 : -1);
+    DATA.forEach((country) => createCards(country, country.todayCases));
   }
   else if(isGlobalCasesMode && !isAllCasesMode && isConfirmedMode) {
-    responce.sort((a, b) => Math.round((a.casesPerOneMillion / 10)) < Math.round((b.casesPerOneMillion / 10)) ? 1 : -1);
+    DATA.sort((a, b) => Math.round((a.casesPerOneMillion / 10)) < Math.round((b.casesPerOneMillion / 10)) ? 1 : -1);
 
-    responce.forEach((country) => {
+    DATA.forEach((country) => {
       let totalConfirmedPer100 = Math.round((country.casesPerOneMillion / 10));
 
       createCards(country, totalConfirmedPer100)
     });
   }
   else if(!isGlobalCasesMode && !isAllCasesMode && isConfirmedMode) {
-    responce.sort((a, b) => Math.round((a.todayCases / a.population) * 100000) < Math.round((b.todayCases / b.population) * 100000) ? 1 : -1);
+    DATA.sort((a, b) => Math.round((a.todayCases / a.population) * 100000) < Math.round((b.todayCases / b.population) * 100000) ? 1 : -1);
     
-    responce.forEach((country) => {
+    DATA.forEach((country) => {
       let newConfirmedPer100 = Math.round((country.todayCases / country.population) * 100000);
       createCards(country, newConfirmedPer100);
     });
@@ -85,25 +90,25 @@ const getInfo = async () => {
 
 
   else if(isGlobalCasesMode && isAllCasesMode && isDeathCasesMode) {
-    responce.sort((a, b) => a.deaths < b.deaths ? 1 : -1);
-    responce.forEach((country) => createCards(country, country.deaths));
+    DATA.sort((a, b) => a.deaths < b.deaths ? 1 : -1);
+    DATA.forEach((country) => createCards(country, country.deaths));
   } 
   else if(!isGlobalCasesMode && isAllCasesMode && isDeathCasesMode) {
-    responce.sort((a, b) => a.todayDeaths < b.todayDeaths ? 1 : -1);
-    responce.forEach((country) => createCards(country, country.todayDeaths));
+    DATA.sort((a, b) => a.todayDeaths < b.todayDeaths ? 1 : -1);
+    DATA.forEach((country) => createCards(country, country.todayDeaths));
   }
   else if(isGlobalCasesMode && !isAllCasesMode && isDeathCasesMode) {
-    responce.sort((a, b) => Math.round((a.deaths / a.population) * 100000) < Math.round((b.deaths / b.population) * 100000) ? 1 : -1);
+    DATA.sort((a, b) => Math.round((a.deaths / a.population) * 100000) < Math.round((b.deaths / b.population) * 100000) ? 1 : -1);
   
-    responce.forEach((country) => {
+    DATA.forEach((country) => {
       let totalDeathsPer100 = Math.round((country.deaths / country.population) * 100000);
       createCards(country, totalDeathsPer100);
     });
   }
   else if(!isGlobalCasesMode && !isAllCasesMode && isDeathCasesMode) {
-    responce.sort((a, b) => Math.round((a.todayDeaths / a.population) * 100000) < Math.round((b.todayDeaths / b.population) * 100000) ? 1 : -1);
+    DATA.sort((a, b) => Math.round((a.todayDeaths / a.population) * 100000) < Math.round((b.todayDeaths / b.population) * 100000) ? 1 : -1);
   
-    responce.forEach((country) => {
+    DATA.forEach((country) => {
       let newDeathsPer100 = Math.round((country.todayDeaths / country.population) * 100000);
       createCards(country, newDeathsPer100);
     });
@@ -111,25 +116,25 @@ const getInfo = async () => {
 
 
   else if(isGlobalCasesMode && isAllCasesMode && isRecoveredMode) {
-    responce.sort((a, b) => a.recovered < b.recovered ? 1 : -1);
-    responce.forEach((country) => createCards(country, country.recovered));
+    DATA.sort((a, b) => a.recovered < b.recovered ? 1 : -1);
+    DATA.forEach((country) => createCards(country, country.recovered));
   } 
   else if(!isGlobalCasesMode && isAllCasesMode && isRecoveredMode) {
-    responce.sort((a, b) => a.todayRecovered < b.todayRecovered ? 1 : -1);
-    responce.forEach((country) => createCards(country, country.todayRecovered));
+    DATA.sort((a, b) => a.todayRecovered < b.todayRecovered ? 1 : -1);
+    DATA.forEach((country) => createCards(country, country.todayRecovered));
   }
   else if(isGlobalCasesMode && !isAllCasesMode && isRecoveredMode) {
-    responce.sort((a, b) => Math.round((a.recovered / a.population) * 100000) < Math.round((b.recovered / b.population) * 100000) ? 1 : -1);
+    DATA.sort((a, b) => Math.round((a.recovered / a.population) * 100000) < Math.round((b.recovered / b.population) * 100000) ? 1 : -1);
   
-    responce.forEach((country) => {
+    DATA.forEach((country) => {
       let totalRecoveredPer100 = Math.round((country.recovered / country.population) * 100000);
       createCards(country, totalRecoveredPer100);
     });
   }
   else if(!isGlobalCasesMode && !isAllCasesMode && isRecoveredMode) {
-    responce.sort((a, b) => Math.round((a.todayRecovered / a.population) * 100000) < Math.round((b.todayRecovered / b.population) * 100000) ? 1 : -1);
+    DATA.sort((a, b) => Math.round((a.todayRecovered / a.population) * 100000) < Math.round((b.todayRecovered / b.population) * 100000) ? 1 : -1);
   
-    responce.forEach((country) => {
+    DATA.forEach((country) => {
       let newRecoveredPer100 = Math.round((country.todayRecovered / country.population) * 100000);
       createCards(country, newRecoveredPer100);
     });
@@ -172,28 +177,27 @@ const onKeyPress = (button) => {
 };
 
 //change Switchers
+const changeSwitcherModeBtn = (firstMode, secondMode) => {
+  firstMode.classList.toggle('hide');
+  secondMode.classList.toggle('hide');
+}
+
 const changeSwitchersDaysMode = () => {
   if(isGlobalCasesMode) {
-    globalCases.classList.add('hide');
-    dailyCases.classList.remove('hide');
     isGlobalCasesMode = false;
-  } else if (!isGlobalCasesMode) {
-    globalCases.classList.remove('hide');
-    dailyCases.classList.add('hide');
+  } else {
     isGlobalCasesMode = true;
-  }   
+  }
+  changeSwitcherModeBtn(globalCases, dailyCases);
 };
 
 const changeSwitchersCasesMode = () => {
   if(isAllCasesMode) {
-    allCases.classList.add('hide');
-    thousandsCases.classList.remove('hide');
     isAllCasesMode = false;
-  } else if (!isAllCasesMode) {
-    allCases.classList.remove('hide');
-    thousandsCases.classList.add('hide');
+  } else {
     isAllCasesMode = true;
   }
+  changeSwitcherModeBtn(allCases, thousandsCases);
 };
 
 // add full Screen

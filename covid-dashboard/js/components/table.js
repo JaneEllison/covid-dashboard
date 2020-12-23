@@ -23,22 +23,23 @@ const arrowRightCount = document.querySelector('.arrow__right_count');
 
 const totalBtn = document.querySelector('.total__btn');
 
-let responce;
-let responceAll;
+let countryCasesData;
+let allCasesData;
 let isGlobalCasesMode = true;
 let isAllCasesMode = true;
 let currentCountry;
+let currentCountryData;
 let isCountryMode;
 const worldPopulationPer100 = 78270;
 
-const fetchData = async () => {
-  responce = await fetch('https://corona.lmao.ninja/v2/countries').then(res => res.json());
-  responceAll = await fetch('https://api.covid19api.com/summary').then(res => res.json());          
+const getData = async () => {
+  countryCasesData = await fetch('https://corona.lmao.ninja/v2/countries').then(res => res.json());
+  allCasesData = await fetch('https://api.covid19api.com/summary').then(res => res.json());          
 };
 
 const getInfoTable = async () => {
 
-  await fetchData();
+  await getData();
 
   if(isCountryMode) return;
 
@@ -47,68 +48,70 @@ const getInfoTable = async () => {
   let recovered;
 
   if (isGlobalCasesMode && isAllCasesMode) {
-    confirmed = responceAll.Global.TotalConfirmed;
-    death = responceAll.Global.TotalDeaths;
-    recovered = responceAll.Global.TotalRecovered;
+    confirmed = allCasesData.Global.TotalConfirmed;
+    death = allCasesData.Global.TotalDeaths;
+    recovered = allCasesData.Global.TotalRecovered;
   }
 
   else if (!isGlobalCasesMode && isAllCasesMode) {
-    confirmed = responceAll.Global.NewConfirmed;
-    death = responceAll.Global.NewDeaths;
-    recovered = responceAll.Global.NewRecovered;
+    confirmed = allCasesData.Global.NewConfirmed;
+    death = allCasesData.Global.NewDeaths;
+    recovered = allCasesData.Global.NewRecovered;
   }
 
   else if (isGlobalCasesMode && !isAllCasesMode) {
-    confirmed = Math.round(responceAll.Global.TotalConfirmed / worldPopulationPer100);
-    death = Math.round(responceAll.Global.TotalDeaths / worldPopulationPer100);
-    recovered = Math.round(responceAll.Global.TotalRecovered / worldPopulationPer100);
+    confirmed = Math.round(allCasesData.Global.TotalConfirmed / worldPopulationPer100);
+    death = Math.round(allCasesData.Global.TotalDeaths / worldPopulationPer100);
+    recovered = Math.round(allCasesData.Global.TotalRecovered / worldPopulationPer100);
   }
 
   else if (!isGlobalCasesMode && !isAllCasesMode) {
-    confirmed = Math.round(responceAll.Global.NewConfirmed / worldPopulationPer100);
-    death = Math.round(responceAll.Global.NewDeaths / worldPopulationPer100);
-    recovered = Math.round(responceAll.Global.NewRecovered / worldPopulationPer100);
+    confirmed = Math.round(allCasesData.Global.NewConfirmed / worldPopulationPer100);
+    death = Math.round(allCasesData.Global.NewDeaths / worldPopulationPer100);
+    recovered = Math.round(allCasesData.Global.NewRecovered / worldPopulationPer100);
   }
 
   createCountryTable('World', 'assets/images/world-icon.png', confirmed, death, recovered);
 };
 
+const getCurrentCountry = () => {
+  currentCountryData = countryCasesData.find(country => currentCountry === country.country);
+};
+
 const getCountryInfo = async () => {
-  await fetchData();
+  await getData();
 
   if(!isCountryMode) return;
-
-  let newCountry = responce.find(country => currentCountry === country.country);
 
   let confirmed;
   let death;
   let recovered;
 
   if (isGlobalCasesMode && isAllCasesMode) {
-    confirmed = newCountry.cases;
-    death = newCountry.deaths;
-    recovered = newCountry.recovered;
+    confirmed = currentCountryData.cases;
+    death = currentCountryData.deaths;
+    recovered = currentCountryData.recovered;
   }
 
   else if (!isGlobalCasesMode && isAllCasesMode) {
-    confirmed = newCountry.todayCases;
-    death = newCountry.todayDeaths;
-    recovered = newCountry.todayRecovered;
+    confirmed = currentCountryData.todayCases;
+    death = currentCountryData.todayDeaths;
+    recovered = currentCountryData.todayRecovered;
   }
 
   else if (isGlobalCasesMode && !isAllCasesMode) {
-    confirmed = Math.round(newCountry.casesPerOneMillion / 10);
-    death = Math.round(newCountry.deathsPerOneMillion / 10);
-    recovered = Math.round(newCountry.recoveredPerOneMillion / 10);
+    confirmed = Math.round(currentCountryData.casesPerOneMillion / 10);
+    death = Math.round(currentCountryData.deathsPerOneMillion / 10);
+    recovered = Math.round(currentCountryData.recoveredPerOneMillion / 10);
   }
 
   else if (!isGlobalCasesMode && !isAllCasesMode) {
-    confirmed = Math.round(newCountry.todayCases / newCountry.population * 100000);
-    death = Math.round(newCountry.todayDeaths / newCountry.population * 100000);
-    recovered = Math.round(newCountry.todayRecovered / newCountry.population * 100000);
+    confirmed = Math.round(currentCountryData.todayCases / currentCountryData.population * 100000);
+    death = Math.round(currentCountryData.todayDeaths / currentCountryData.population * 100000);
+    recovered = Math.round(currentCountryData.todayRecovered / currentCountryData.population * 100000);
   }
 
-  createCountryTable(newCountry.country, newCountry.countryInfo.flag, confirmed, death, recovered);
+  createCountryTable(currentCountryData.country, currentCountryData.countryInfo.flag, confirmed, death, recovered);
 
 }
 
@@ -128,27 +131,22 @@ const cleanTable = () => {
   tableRecovered.innerHTML = '';
 };
 
-const changeTableDays = () => {
-  tableGlobal.classList.toggle('hide');
-  tableDaily.classList.toggle('hide');
-  
-  arrowLeftDays.classList.toggle('unactive');
-  arrowRightDays.classList.toggle('unactive');
-};
+const changeTableNameMode = (firstMode, secondMode) => {
+  firstMode.classList.toggle('hide');
+  secondMode.classList.toggle('hide');
+}
 
-const changeTableCount = () => {
-  tableAll.classList.toggle('hide');
-  tablePer100.classList.toggle('hide');
-  
-  arrowLeftCount.classList.toggle('unactive');
-  arrowRightCount.classList.toggle('unactive');
+const changeTableArrows = (firstArrow, secondArrow) => {
+  firstArrow.classList.toggle('unactive');
+  secondArrow.classList.toggle('unactive');
 };
 
 //days swither right
 arrowRightDays.addEventListener('click', () => {
   
   if(isGlobalCasesMode) {
-    changeTableDays();
+    changeTableNameMode(tableGlobal, tableDaily);
+    changeTableArrows(arrowLeftDays, arrowRightDays);
     isGlobalCasesMode = false;
   }
 
@@ -161,7 +159,9 @@ arrowRightDays.addEventListener('click', () => {
 arrowLeftDays.addEventListener('click', () => {
 
   if(!isGlobalCasesMode) {
-    changeTableDays();
+    changeTableNameMode(tableGlobal, tableDaily);
+    changeTableArrows(arrowLeftDays, arrowRightDays);
+    
     isGlobalCasesMode = true;
   }
 
@@ -174,7 +174,8 @@ arrowLeftDays.addEventListener('click', () => {
 arrowRightCount.addEventListener('click', () => {
 
   if(isAllCasesMode) {
-    changeTableCount();
+    changeTableNameMode(tableGlobal, tableDaily);
+    changeTableArrows(arrowLeftCount, arrowRightCount);
     isAllCasesMode = false;
   }
 
@@ -187,7 +188,8 @@ arrowRightCount.addEventListener('click', () => {
 arrowLeftCount.addEventListener('click', () => {
 
   if(!isAllCasesMode) {
-    changeTableCount();
+    changeTableNameMode(tableGlobal, tableDaily);
+    changeTableArrows(arrowLeftCount, arrowRightCount);
     isAllCasesMode = true;
   }
 
@@ -203,6 +205,7 @@ countries.addEventListener ('click', (event) => {
   if (target.className != 'country__name') return;
   currentCountry = target.innerText;
   isCountryMode = true;
+  getCurrentCountry(); 
   getCountryInfo();
 });
 
