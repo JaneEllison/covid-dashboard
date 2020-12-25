@@ -200,13 +200,15 @@ arrowLeftCount.addEventListener('click', () => {
 });
 
 countries.addEventListener ('click', (event) => {
+  const countryNameChart = document.querySelector('.chart__country_name');
   let target = event.target;
 
   if (target.className !== 'country__name' || target.innerText === currentCountry) {
     return;
   } 
   
-  currentCountry = target.innerText;
+  currentCountry = target.innerText;  
+  countryNameChart.innerText = currentCountry;
   isCountryMode = true;
 
   cleanTable();
@@ -216,14 +218,15 @@ countries.addEventListener ('click', (event) => {
 });
 
 mapid.addEventListener('click', (event)=> {
+  const countryNameChart = document.querySelector('.chart__country_name');
   let target = event.target;
 
   if(target.className !== 'covid__country') {
     return currentCountry = currentCountry;
   }
-  else {
-    currentCountry = target.innerText.slice(0, -1);
-  }
+  
+  currentCountry = target.innerText.slice(0, -1);
+  countryNameChart.innerText = currentCountry;
   isCountryMode = true;
 
   getCurrentCountry(); 
