@@ -13,17 +13,24 @@ const hundredCasesButton = document.querySelector('.chart__control_hundred');
 const chartBtnContainer = document.querySelector('.chart__control');
 const fullscreenChartBtn = document.querySelector ('.fullscreen__chart');
 const chart = document.querySelector ('.chart');
+const countryNameChart = document.querySelector('.chart__country_name');
 
-const globalConfirmed = [];
-const globalDeaths = [];
-const globalRecovered = [];
-const dateStage = [];
-const rightDate = [];
+const countries = document.querySelector('.countries');
+const chartInfo = document.querySelector ('.chart__global');
+const mapid = document.getElementById('mapid');
 
-const newConfirmed = [];
+let currentCountry;
+
+let globalConfirmed = [];
+let globalDeaths = [];
+let globalRecovered = [];
+let dateStage = [];
+let rightDate = [];
+
+let newConfirmed = [];
 let lastDate = '';
-const newRecovered = [];
-const newDeaths = [];
+let newRecovered = [];
+let newDeaths = [];
 
 let globalChartCreated;
 let dailyChartCreated;
@@ -33,13 +40,15 @@ let isShowChart = true;
 let isHundredChart = true;
 
 const worldPopulationPer100 = 78270;
-const globalHundredConfirmed = [];
-const globalHundredDeaths = [];
-const globalHundredRecovered = [];
+let globalHundredConfirmed = [];
+let globalHundredDeaths = [];
+let globalHundredRecovered = [];
 
-const todayHundredConfirmed = [];
-const todayHundredDeaths = [];
-const todayHundredRecovered = [];
+let todayHundredConfirmed = [];
+let todayHundredDeaths = [];
+let todayHundredRecovered = [];
+
+let isCountryModeOn;
 
 const monthsNames = [
   'Jan',
@@ -102,6 +111,11 @@ const dailyChartAction = () => {
 };
 
 const createDailyChart = () => {
+
+  if(dailyChartCreated) {
+    dailyChartCreated.destroy();
+  }
+
   dailyChartCreated = new Chart(chartDaily, {
     type: 'doughnut',
     data: {
@@ -141,6 +155,11 @@ const hundredChartAction = () => {
 };
 
 const createHundredChart = () => {
+
+  if(hundredChartCreated) {
+    hundredChartCreated.destroy();
+  }
+
   hundredChartCreated = new Chart(chartHundred, {
     type: 'line',
     data: {
@@ -214,7 +233,68 @@ const createHundredChart = () => {
   return hundredChartCreated;
 };
 
-const covidData = async () => {
+const cleanData = () => {
+  globalConfirmed = [];
+  globalDeaths = []; 
+  globalRecovered = [];
+  newConfirmed = [];
+  newRecovered = [];
+  newDeaths = [];
+  globalHundredConfirmed = [];
+  globalHundredDeaths = [];
+  globalHundredRecovered = [];
+  todayHundredConfirmed = [];
+  todayHundredDeaths = [];
+  todayHundredRecovered = [];
+};
+
+const countryData = async (country) => {
+  const response = await fetch(`https://disease.sh/v3/covid-19/historical/${country}?lastdays=all`);
+  const countryApiData = await response.json();
+  
+  const timeLineCases = countryApiData.timeline.cases;
+
+  const timeLineCasesArrValues = Object.values(timeLineCases);
+  const timeLineCasesArrKeys = Object.keys(timeLineCases); 
+
+  const timeLineDeaths = countryApiData.timeline.deaths;
+  const timeLineDeathsArr = Object.values(timeLineDeaths);
+  
+  const timeLineRecovered = countryApiData.timeline.recovered;
+  const timeLineRecoveredArr = Object.values(timeLineRecovered);
+
+  cleanData();
+
+  timeLineCasesArrKeys.forEach((el) => {
+    dateStage.push(el);
+ });
+
+  timeLineCasesArrValues.forEach((el) => {
+    globalConfirmed.push(el);
+    globalHundredConfirmed.push(Math.round(el / worldPopulationPer100));
+  });
+
+  timeLineDeathsArr.forEach((el) => {
+    globalDeaths.push(el);
+    globalHundredDeaths.push(Math.round(el / worldPopulationPer100));
+  });
+
+  timeLineRecoveredArr.forEach((el) => {
+    globalRecovered.push(el);
+    globalHundredRecovered.push(Math.round(el / worldPopulationPer100));
+  });
+
+  lastDate = timeLineCasesArrKeys.slice(-1);
+
+  newConfirmed.push(timeLineCasesArrValues.slice(-1));
+  newDeaths.push(timeLineDeathsArr.slice(-1));
+  newRecovered.push(timeLineRecoveredArr.slice(-1));
+
+  createDailyChart();
+  createHundredChart();
+};
+
+const covidData = async () => {  
   const response = await fetch('https://corona-api.com/timeline');
   const covidApiData = await response.json();
 
@@ -240,7 +320,9 @@ const covidData = async () => {
   newDeaths.push(data[0].new_deaths);
   lastDate += data[0].date;
 
-  sortData();
+  if(dateStage) {
+    sortData();
+  }
   createDailyChart();
   createHundredChart();
 };
@@ -249,7 +331,9 @@ const chartButtonActive = (event) => {
   const targetBtn = event.target;
   const activeBtn = document.querySelector('.open');
 
-  if (targetBtn.getAttribute('class') === 'chart__control') {
+  if (targetBtn.getAttribute('class') === 'chart__control'
+    || targetBtn.getAttribute('class') === 'chart__country'
+    || targetBtn.getAttribute('class') === 'chart__country_name') {
     return;
   }
 
@@ -262,7 +346,15 @@ const chartButtonActive = (event) => {
 const createGlobalChart = async () => {
   worldCases.classList.add('active');
 
-  await covidData();
+  if(!isCountryModeOn) {
+    await covidData();
+  } else {
+    await countryData(currentCountry);
+  }
+
+  if(globalChartCreated) {
+    globalChartCreated.destroy();
+  }
 
   globalChartCreated = new Chart(chartGlobal, {
     type: 'line',
@@ -315,7 +407,6 @@ const createGlobalChart = async () => {
       maintainAspectRatio: false,
     },
   });
-
   return globalChartCreated;
 };
 
@@ -329,6 +420,53 @@ fullscreenChartBtn.addEventListener('click', () => {
     fullscreenChartBtn.style.top = '-0.4rem';
     fullscreenChartBtn.style.right = '-0.4rem';
   };
+});
+
+const changeChart = () => {
+  const activeBtn = document.querySelector('.open');
+  const chartControlGlobal = document.querySelector('.chart__control_global');
+
+  if (isCountryModeOn) {
+    activeBtn.classList.remove('open');
+    chartControlGlobal.classList.add('open');
+  }
+
+  globalChartAction();
+  createGlobalChart();
+
+};
+
+countries.addEventListener ('click', (event) => {
+  isCountryModeOn = true;
+  let target = event.target;
+
+  if (target.className !== 'country__name' || target.innerText === currentCountry) {
+    return;
+  } 
+  currentCountry = target.innerText.toLowerCase();
+  changeChart();
+});
+
+mapid.addEventListener('click', (event)=> {
+  isCountryModeOn = true;
+  let target = event.target;
+
+  if(target.className !== 'covid__country') {
+    return;
+  }
+  currentCountry = target.innerText.slice(0, -1);
+  changeChart();
+});
+
+const totalBtn = document.querySelector('.total__btn');
+totalBtn.addEventListener ('click', () => {
+  isCountryModeOn = false;
+  dateStage = [];
+  rightDate = [];
+  cleanData();
+
+  changeChart();
+  countryNameChart.innerText = 'World';
 });
 
 globalCasesButton.addEventListener('click', () => globalChartAction());
