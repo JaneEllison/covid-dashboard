@@ -40,18 +40,18 @@ let myKeyboard = new Keyboard({
   useMouseEvents: true,
 });
 
-const fetchData = async () => {
+const getData = async () => {
   DATA = await fetch('https://corona.lmao.ninja/v2/countries')
   .then((res) => res.json());                 
 };
 
 const seachCountries = () => {
   DATA = DATA.filter((country) => country.country.toLowerCase().includes(searchTerm.toLowerCase()));
-}
+};
 
 const getInfo = async () => {
 
-  await fetchData();
+  await getData();
   seachCountries();
 
   DATA.forEach((country) => {

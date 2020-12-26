@@ -72,7 +72,7 @@ const getInfoTable = async () => {
     recovered = Math.round(allCasesData.Global.NewRecovered / worldPopulationPer100);
   }
 
-  createCountryTable('World', 'assets/images/world-icon.png', confirmed, death, recovered);
+  createCountryTable('World', '../assets/images/world-icon.png', confirmed, death, recovered);
 };
 
 const getCurrentCountry = () => {
@@ -117,7 +117,7 @@ const getCountryInfo = async () => {
 }
 
 const createCountryTable = (country, flag, confirmed, death, recovered) => {
-  countryFlag.innerHTML = `<img src="../${flag}" class="flag__img">`;
+  countryFlag.innerHTML = `<img src="${flag}" class="flag__img">`;
   countryName.innerText = country;
 
   tableConfirmed.innerText = confirmed;
