@@ -1,21 +1,12 @@
+import newsData from './newsData.js';
+
 const newsContainer = document.querySelector('.news__container');
 const newsCards = document.querySelector('.news__cards');
 const fullscreenBtn = document.querySelector('.fullscreen__news');
-let newsData;
-
-
-const getNewsData = async () => {
-  newsData = await fetch('https://newsapi.org/v2/everything?q=covid-19&apiKey=f1dba7bb18f14c9093f05182f0de1ce7')
-  .then((res) => res.json());  
-  
-  console.log(newsData.articles);
-};
 
 const getCards = async() => {
 
-  await getNewsData();
-
-  newsData.articles.forEach((post) => createNewsCards(post));
+  newsData.forEach((post) => createNewsCards(post));
 }
 
 const createNewsCards = (post) => {
