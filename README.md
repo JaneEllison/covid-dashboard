@@ -1,4 +1,8 @@
 # COVID-19 Dashboard
-## Приложение для отслеживания распространения COVID-19 в мире и в отдельных странах.
+App for tracking the spread of COVID-19 data in the world and in selected countries with using API.
 
-## [Deploy проекта](https://noch4nce.github.io/covid-dashboard/covid-dashboard/build/index.html)
+## Technologies and libraries:
+JavaScript
+<br> Chart.js, Leafletjs, Webpack, Sass.
+
+## [Deploy](https://noch4nce.github.io/covid-dashboard/covid-dashboard/build/index.html)
